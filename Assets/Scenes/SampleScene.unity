@@ -3020,7 +3020,7 @@ GameObject:
   - component: {fileID: 772070880}
   - component: {fileID: 772070879}
   m_Layer: 5
-  m_Name: PressToLoot
+  m_Name: Pop-up Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4787,7 +4787,7 @@ GameObject:
   - component: {fileID: 949458657}
   - component: {fileID: 949458656}
   m_Layer: 5
-  m_Name: TimeToGrab
+  m_Name: Loot Timer Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10623,7 +10623,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-598612
+  m_Name: pb_Mesh-1216
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -16399,7 +16399,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-564170
+  m_Name: pb_Mesh-1436
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -16878,7 +16878,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentWorth: 0
   totalWorth: 500
-  textMeshOfWorth: {fileID: 315134275}
+  textMeshWorthScore: {fileID: 315134275}
 --- !u!1 &1983782316
 GameObject:
   m_ObjectHideFlags: 0
@@ -16946,13 +16946,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  cameraZoomBorders: {x: 4, y: 10}
   cameraScrollSpeed: 0.5
-  canvasObj: {fileID: 350119331}
-  lootObj: {fileID: 0}
-  informationTextTransform: {fileID: 772070881}
-  informationTextObj: {fileID: 772070879}
-  infoToHold: {fileID: 949458656}
   gameController: {fileID: 1970914210}
+  popupTransform: {fileID: 772070881}
+  popupText: {fileID: 772070879}
+  lootTimerText: {fileID: 949458656}
 --- !u!143 &2035927302
 CharacterController:
   m_ObjectHideFlags: 0
@@ -17291,7 +17290,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-598248
+  m_Name: pb_Mesh-1192
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

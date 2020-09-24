@@ -23,6 +23,7 @@ public class player : MonoBehaviour{
     // >>> Player stats
     //------------------------
     [Header("Player stats")]
+    [Range(2.5f, 10f)]
     [Tooltip("Base move speed of player")]
     public float moveSpeed = 5f;
     
@@ -32,6 +33,7 @@ public class player : MonoBehaviour{
     [Header("Camera")]
     [Tooltip("Set minimum (X) and maximum (Y) camera zoom levels")]
     public Vector2 cameraZoomBorders = new Vector2(4.0f, 10.0f);
+    [Range(0.25f, 2f)]
     [Tooltip("Camera scroll step every mouse wheel rotation")]
     public float cameraScrollSpeed = 1f;
     // Camera zoom level
@@ -45,15 +47,23 @@ public class player : MonoBehaviour{
     // Total time passed while holding loot button and getting loot
     private float timerToLoot = 0f;
     
-    private CharacterController chararacterController;
-    public GameObject canvasObj;
+    //------------------------
+    // >>> References
+    //------------------------
+    [Header("References")]
+    [Tooltip("Reference to main game controller")]
+    public gameController gameController;
+    [Tooltip("Reference to pop-up text transform")]
+    public RectTransform popupTransform;
+    [Tooltip("Reference to pop-up text component")]
+    public TMPro.TextMeshProUGUI popupText;
+    [Tooltip("Reference to 'loot timers' text component")]
+    public TMPro.TextMeshProUGUI lootTimerText;
+    // CharacterController component of player
+    private CharacterController characterController;
     
     // Current loot object or null if not in zone of any
     private GameObject currentLootObj;
-    public RectTransform informationTextTransform;
-    public TMPro.TextMeshProUGUI informationTextObj;
-    public TMPro.TextMeshProUGUI infoToHold;
-    public gameController gameController;
     
     private Vector3 offsetText = new Vector3(0, 150, 0);
     private short lootEntered = 0;
@@ -87,7 +97,7 @@ public class player : MonoBehaviour{
         // If list is empty
         if(lootEntered == 0){
             // Reset text in pop-up text
-            informationTextObj.SetText("");
+            popupText.SetText("");
             // Set current lootable object to null
             currentLootObj = null;
             // Reset information about loot
@@ -128,7 +138,7 @@ public class player : MonoBehaviour{
             lootEntered++;
             // If there is at least 1 lootable object, change text of pop-up text
             if(lootEntered > 0){
-                informationTextObj.SetText(Localization.HOLD_TO_LOOT);
+                popupText.SetText(Localization.HOLD_TO_LOOT);
             }
         //-----------------------------------------
         // Else if player enters loot zone trigger
@@ -154,7 +164,7 @@ public class player : MonoBehaviour{
         // Set current loot object to null (not in area of any loot object)
         currentLootObj = null;
         // Get components and save their references
-        chararacterController = GetComponent<CharacterController>();
+        characterController = GetComponent<CharacterController>();
         // Set current camera zoom level
         cameraZoomLevel = Camera.main.orthographicSize;
     }
@@ -185,11 +195,11 @@ public class player : MonoBehaviour{
         // Apply small gravity
         move.y = -5f;
         // If player is on ground, apply only friction of gravity
-        if(chararacterController.isGrounded){
+        if(characterController.isGrounded){
             move.y = -0.01f;
         }
         // Move player around according to move vector
-        chararacterController.Move(move*Time.deltaTime*moveSpeed);
+        characterController.Move(move*Time.deltaTime*moveSpeed);
         //----------------------------------
         // If there is any loot to get and player is holding "e" (loot button)
         if(lootEntered > 0 && Input.GetKey("e")){
@@ -211,7 +221,7 @@ public class player : MonoBehaviour{
             timerToLoot = 0f;
         }
         // [DEBUG] Update timer information
-        infoToHold.SetText(timerToLoot.ToString() + "/" + lootInfo.time.ToString());
+        lootTimerText.SetText(timerToLoot.ToString() + "/" + lootInfo.time.ToString());
         //----------------------------------
         // Change zoom of camera with mouse scroll
         if(Input.mouseScrollDelta.y != 0f){
@@ -225,7 +235,7 @@ public class player : MonoBehaviour{
         if(!(currentLootObj is null)){
             // Set position of pop-up text above it
             Vector3 t_vec = Camera.main.WorldToScreenPoint(currentLootObj.transform.position);
-            informationTextTransform.position = t_vec+offsetText*5/Camera.main.orthographicSize;
+            popupTransform.position = t_vec+offsetText*5/Camera.main.orthographicSize;
         }
     }
 }
