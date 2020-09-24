@@ -108,6 +108,20 @@ public class gameController : MonoBehaviour{
     // Post processing timer for interp values
     float ppInterpTimer = 0f;
     
+    //------------------------
+    // >>> UI
+    //------------------------
+    [Header("Header text")]
+    [Space(20)]
+    [Tooltip("'Successful mission' text color")]
+    public Color successfulMissionColor;
+    [Tooltip("'Failed mission' text color")]
+    public Color failedMissionColor;
+    
+    [Header("UI Groups")]
+    [Tooltip("Gameplay UI elements canvas group")]
+    public CanvasGroup gameplayUIGroup;
+    
     // #############################################
     // ##### METHODS
     
@@ -145,6 +159,18 @@ public class gameController : MonoBehaviour{
     private void UpdateWorth(){
         textMeshWorthScore.SetText(currentWorth.ToString("0.000") + "$ / " + totalWorth.ToString("0.000") + "$");
     }
+    
+    // Update header size
+    private void UpdateHeader(PPSettings a_settings){
+        if(a_settings != PPSettings.Default){
+            textMeshHeaderTransform.localScale = new Vector3(Mathf.Min(ppInterpTimer, 1f), Mathf.Min(ppInterpTimer, 1f), 1f);
+            gameplayUIGroup.alpha = Mathf.Max(1.0f-ppInterpTimer*2, 0f);
+        } else {
+            textMeshHeaderTransform.localScale = Vector3.zero;
+            gameplayUIGroup.alpha = 1.0f;
+        }
+    }
+    
     
     // Update post processing settings
     private void UpdatePP(PPSettings a_settings){
@@ -208,6 +234,7 @@ public class gameController : MonoBehaviour{
         // Update UI
         UpdateWorth();
         UpdateEquipped();
+        UpdateHeader(whichPPSettingisSet);
         
         // Save references to post process volume settings
         postProcessVolume.profile.TryGet<Vignette>(out postProcessVignette);
@@ -222,14 +249,22 @@ public class gameController : MonoBehaviour{
         // [DEBUG] change pp settings
         if(Input.GetKeyDown("v")){
             isPPUpdating = true;
+            ppInterpTimer = 0f;
+            textMeshHeader.SetText(Localization.MISSION_SUCCESSFUL);
+            textMeshHeader.color = successfulMissionColor;
             whichPPSettingisSet = PPSettings.Success;
         }
         if(Input.GetKeyDown("b")){
             isPPUpdating = true;
+            ppInterpTimer = 0f;
+            textMeshHeader.SetText(Localization.MISSION_FAILED);
+            textMeshHeader.color = failedMissionColor;
             whichPPSettingisSet = PPSettings.Failed;
         }
         if(Input.GetKeyDown("c")){
-            UpdatePP(PPSettings.Default);
+            isPPUpdating = true;
+            ppInterpTimer = 0f;
+            whichPPSettingisSet = PPSettings.Default;
         }
         
         // If PP is updating, interp values of it
@@ -238,8 +273,10 @@ public class gameController : MonoBehaviour{
             // If we are interpolating values
             if(whichPPSettingisSet != PPSettings.Default){
                 // Add to interpolation timer
-                ppInterpTimer += Time.deltaTime;
+                ppInterpTimer += Time.deltaTime*2f;
             }
+            // Update header size
+            UpdateHeader(whichPPSettingisSet);
             // If interpolation timer is over 1.0, reset it and we finished updating PP
             if(ppInterpTimer >= 1.0f){
                 isPPUpdating = false;
