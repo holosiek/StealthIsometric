@@ -44,8 +44,14 @@ public class player : MonoBehaviour{
     //------------------------
     // Loot information struct
     private LootInfo lootInfo;
+    // List containing lootable objects in range
+    private List<GameObject> lootableObjects = new List<GameObject>();
+    // Current loot object or null if not in zone of any
+    private GameObject currentLootObj;
     // Total time passed while holding loot button and getting loot
     private float timerToLoot = 0f;
+    // Total lootable objects in range counter
+    private short lootEntered = 0;
     
     //------------------------
     // >>> References
@@ -62,12 +68,11 @@ public class player : MonoBehaviour{
     // CharacterController component of player
     private CharacterController characterController;
     
-    // Current loot object or null if not in zone of any
-    private GameObject currentLootObj;
-    
+    //------------------------
+    // >>> Others
+    //------------------------
+    // Offset of text above lootable objects
     private Vector3 offsetText = new Vector3(0, 150, 0);
-    private short lootEntered = 0;
-    private List<GameObject> lootableObjects = new List<GameObject>();
     
     // #############################################
     // ##### METHODS
