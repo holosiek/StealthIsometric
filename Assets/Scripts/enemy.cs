@@ -67,8 +67,6 @@ public class enemy : MonoBehaviour{
     //------------------------
     // State which enemy is right now
     private States stateRN = States.Moving;
-    // Timer used for various state things, like counting till moving to next state
-    private float stateTimer = 0f;
     // Last detected player position
     private Vector3 lastPlayerPosition;
     // Step in rotation
