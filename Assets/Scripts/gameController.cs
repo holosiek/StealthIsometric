@@ -8,18 +8,20 @@ public class gameController : MonoBehaviour{
     [SerializeField]
     [Tooltip("Total loot worth in k$ (current score)")]
     private float currentWorth = 0f;
+    
     [Tooltip("Loot worth to get in k$ (score objective)")]
     public float totalWorth = 500f;
     
+    [Header("References to objects/components")]
     [Tooltip("Text mesh holding game objective information")]
-    public TMPro.TextMeshProUGUI textMeshOfWorth;
+    public TMPro.TextMeshProUGUI textMeshWorthScore;
     
     // #############################################
     // ##### METHODS
     
     // Update score UI text
     private void UpdateWorth(){
-        textMeshOfWorth.SetText(currentWorth.ToString("0.000") + "$ / " + totalWorth.ToString("0.000") + "$");
+        textMeshWorthScore.SetText(currentWorth.ToString("0.000") + "$ / " + totalWorth.ToString("0.000") + "$");
     }
     
     // Add score and update UI text about worth
