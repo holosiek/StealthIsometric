@@ -19,4 +19,7 @@ public class lootInformation : MonoBehaviour{
     [Range(0, 5)]
     [Tooltip("Weight of loot")]
     public int lootWeight;
+    
+    [Tooltip("Image of looted item")]
+    public Sprite lootImage;
 }

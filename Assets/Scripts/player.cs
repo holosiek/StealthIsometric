@@ -6,16 +6,6 @@ using UnityEngine.SceneManagement;
 
 
 public class player : MonoBehaviour{
-    // #############################################
-    // ##### Structs
-    
-    // LootInfo stores information about loot
-    private struct LootInfo {
-        public string name;
-        public float time;
-        public float worth;
-        public int weight;
-    }
     
     // #############################################
     // ##### VARIABLES
@@ -46,8 +36,6 @@ public class player : MonoBehaviour{
     //------------------------
     // >>> Loot
     //------------------------
-    // Loot information struct
-    private LootInfo lootInfo;
     // List containing lootable objects in range
     private List<GameObject> lootableObjects = new List<GameObject>();
     // Current loot object or null if not in zone of any
@@ -56,6 +44,8 @@ public class player : MonoBehaviour{
     private float timerToLoot = 0f;
     // Total lootable objects in range counter
     private short lootEntered = 0;
+    // Are we holding any loot?
+    private bool isHoldingLoot = false;
     
     //------------------------
     // >>> References
@@ -85,20 +75,15 @@ public class player : MonoBehaviour{
     // #############################################
     // ##### METHODS
     
-    // Update information about loot in LootInfo struct
-    void UpdateLootInfo(lootInformation a_ref){
-        lootInfo.name = a_ref.lootName;
-        lootInfo.time = a_ref.timeToLoot;
-        lootInfo.worth = a_ref.lootScore;
-        lootInfo.weight = a_ref.lootWeight;
-    }
-    
-    // Reset information about loot in LootInfo struct
-    void ResetLootInfo(){
-        lootInfo.name = "";
-        lootInfo.time = 0f;
-        lootInfo.worth = 0f;
-        lootInfo.weight = 0;
+    // Change popup text depending on situation
+    void UpdatePopUp(){
+        if(isHoldingLoot){
+            popupText.color = Localization.COLOR_DISABLED;
+            popupText.SetText(Localization.TAKE_LOOT_TO_SPAWN);
+        } else {
+            popupText.color = Localization.COLOR_INFORMATION;
+            popupText.SetText(Localization.HOLD_TO_LOOT);
+        }
     }
     
     // Delete object from lootables
@@ -113,14 +98,14 @@ public class player : MonoBehaviour{
             popupText.SetText("");
             // Set current lootable object to null
             currentLootObj = null;
-            // Reset information about loot
-            ResetLootInfo();
         // Otherwise
         } else {
             // Set current lootable object to last visited
             currentLootObj = lootableObjects[lootableObjects.Count-1];
             // Update information about loot in LootInfo struct
-            UpdateLootInfo(currentLootObj.GetComponent<lootInformation>());
+            gameController.UpdateLootInfo(currentLootObj.GetComponent<lootInformation>());
+            // Update popup text
+            UpdatePopUp();
         }
     }
     
@@ -145,17 +130,29 @@ public class player : MonoBehaviour{
             if(!lootableObjects.Contains(currentLootObj)){
                 lootableObjects.Add(currentLootObj);
             }
-            // Update information about loot in LootInfo struct
-            UpdateLootInfo(currentLootObj.GetComponent<lootInformation>());
+            // If player is not holding any loot update information
+            if(!isHoldingLoot){
+                // Update information about loot in LootInfo struct
+                gameController.UpdateLootInfo(currentLootObj.GetComponent<lootInformation>());
+            }
             // Add +1 to lootable objects counter
             lootEntered++;
             // If there is at least 1 lootable object, change text of pop-up text
             if(lootEntered > 0){
-                popupText.SetText(Localization.HOLD_TO_LOOT);
+                // Update popup text
+                UpdatePopUp();
             }
         //-----------------------------------------
         // Else if player enters loot zone trigger
-        } else if(collider.tag.Equals("Loot Zone")){
+        } else if(collider.tag.Equals("LootZone")){
+            // Change holding loot bool to false
+            isHoldingLoot = false;
+            // Add score
+            gameController.AddToWorth(gameController.lootInfo.worth);
+            // Reset information about loot
+            gameController.ResetLootInfo();
+            // Update UI
+            gameController.UpdateEquipped();
         }
     }
     
@@ -169,11 +166,7 @@ public class player : MonoBehaviour{
     }
     
     // On start
-    void Start(){
-        // Init loot information struct
-        lootInfo = new LootInfo();
-        ResetLootInfo();
-        
+    void Start(){        
         // Set current loot object to null (not in area of any loot object)
         currentLootObj = null;
         // Get components and save their references
@@ -204,7 +197,7 @@ public class player : MonoBehaviour{
             move.z -= 1f;
         }
         // Normalize move vector
-        move = move.normalized*(moveSpeed-moveWeightPenality*lootInfo.weight)*Time.deltaTime;
+        move = move.normalized*(moveSpeed-moveWeightPenality*gameController.lootInfo.weight)*Time.deltaTime;
         // Apply small gravity
         move.y = -5f;
         // If player is on ground, apply only friction of gravity
@@ -215,19 +208,21 @@ public class player : MonoBehaviour{
         characterController.Move(move);
         //----------------------------------
         // If there is any loot to get and player is holding "e" (loot button)
-        if(lootEntered > 0 && Input.GetKey("e")){
+        if(lootEntered > 0 && Input.GetKey("e") && !isHoldingLoot){
             // Set that player is interative with something
             isInteractive = true;
             // Add to "holding to loot" timer
             timerToLoot += Time.deltaTime;
             // If our timer passed loot time
-            if(timerToLoot >= lootInfo.time){
+            if(timerToLoot >= gameController.lootInfo.time){
                 // Reset that timer
                 timerToLoot = 0f;
-                // Add score
-                gameController.AddToWorth(lootInfo.worth);
                 // Set current lootable object as not active
                 currentLootObj.SetActive(false);
+                // Change bool to true, because now we hold equipped loot
+                isHoldingLoot = true;
+                // Update UI
+                gameController.UpdateEquipped();
                 // Delete object from lootables
                 DeleteLootableObj(currentLootObj);
             }
@@ -239,7 +234,7 @@ public class player : MonoBehaviour{
         // Set action timer fill amount
         if(isInteractive){
             popupObject.SetActive(true);
-            actionTimerImage.fillAmount = timerToLoot/lootInfo.time;
+            actionTimerImage.fillAmount = timerToLoot/gameController.lootInfo.time;
         } else {
             popupObject.SetActive(false);
         }
