@@ -1766,7 +1766,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0$ / 500,000$
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 889aca57fb4a4ae41bf78349cabe7d7f, type: 2}
   m_sharedMaterial: {fileID: 4610588513458197381, guid: 889aca57fb4a4ae41bf78349cabe7d7f, type: 2}
@@ -17477,7 +17477,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Mission succesful
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7f93f1b7322e4864da3508253b144f7c, type: 2}
   m_sharedMaterial: {fileID: 6295298613985076, guid: 7f93f1b7322e4864da3508253b144f7c, type: 2}
