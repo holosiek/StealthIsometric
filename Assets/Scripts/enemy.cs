@@ -78,6 +78,11 @@ public class enemy : MonoBehaviour{
     Quaternion leftRotation;
     Quaternion orginalRotation;
     
+    //------------------------
+    // >>> Referance
+    //------------------------
+    public gameController gameController;
+    
     // #############################################
     // ##### METHODS
     
@@ -117,18 +122,23 @@ public class enemy : MonoBehaviour{
     
     // State: Chasing - Move towards player
     void GoTowardsPlayer(){
-        navAgent.SetDestination(lastPlayerPosition);
-        if(!navAgent.pathPending && navAgent.remainingDistance <= navAgent.stoppingDistance){
-            if(!navAgent.hasPath || navAgent.velocity.sqrMagnitude == 0f){
-                rotationStep = 0f;
-                rotationDir = -1;
-                stateRN = States.Lost;
-                LostPlayer();
+        if(gameController.whichPPSettingisSet == gameController.PPSettings.Default){
+            navAgent.SetDestination(lastPlayerPosition);
+            if(!navAgent.pathPending && navAgent.remainingDistance <= navAgent.stoppingDistance){
+                if(!navAgent.hasPath || navAgent.velocity.sqrMagnitude == 0f){
+                    rotationStep = 0f;
+                    rotationDir = -1;
+                    stateRN = States.Lost;
+                    LostPlayer();
+                } else {
+                ChaseRotation();
+                }
             } else {
-            ChaseRotation();
+                ChaseRotation();
             }
         } else {
-            ChaseRotation();
+            stateRN = States.Moving;
+            navAgent.SetDestination(waypointList[waypointNow].transform.position);
         }
     }
     

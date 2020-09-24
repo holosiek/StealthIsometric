@@ -115,8 +115,9 @@ public class player : MonoBehaviour{
     // On collision enter
     void OnCollisionEnter(Collision collision){
         // If player collides with enemy, restart game
-        if(collision.collider.tag.Equals("Enemy")){
-            SceneManager.LoadScene("SampleScene");
+        if(collision.collider.tag.Equals("Enemy") && gameController.whichPPSettingisSet == gameController.PPSettings.Default){
+            gameController.SetMissionFailed();
+            characterController.enabled = false;
         }
     }
     
@@ -205,7 +206,9 @@ public class player : MonoBehaviour{
             move.y = -0.01f;
         }
         // Move player around according to move vector
-        characterController.Move(move);
+        if(gameController.whichPPSettingisSet == gameController.PPSettings.Default){
+            characterController.Move(move);
+        }
         //----------------------------------
         // If there is any loot to get and player is holding "e" (loot button)
         if(lootEntered > 0 && Input.GetKey("e") && !isHoldingLoot){

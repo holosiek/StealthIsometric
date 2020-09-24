@@ -22,7 +22,7 @@ public class gameController : MonoBehaviour{
     // #############################################
     // ##### ENUMS
     
-    enum PPSettings{
+    public enum PPSettings{
         Default,
         Success,
         Failed
@@ -45,8 +45,6 @@ public class gameController : MonoBehaviour{
     public TMPro.TextMeshProUGUI textMeshWorthScore;
     [Tooltip("Text mesh of equipped item")]
     public TMPro.TextMeshProUGUI textMeshEquippedItem;
-    [Tooltip("Text mesh of header (like \"Succesful mission\" text)")]
-    public TMPro.TextMeshProUGUI textMeshHeader;
     [Tooltip("RectTransform of header (like \"Succesful mission\" text)")]
     public RectTransform textMeshHeaderTransform;
     [Tooltip("Image component of currently equipped item")]
@@ -102,17 +100,21 @@ public class gameController : MonoBehaviour{
     public Color colorAdjustmentsColorFailed;
     
     // Is post processing in progress of updating
-    bool isPPUpdating = false;
+    private bool isPPUpdating = false;
     // Which PP setting is set
-    PPSettings whichPPSettingisSet = PPSettings.Default;
+    public PPSettings whichPPSettingisSet = PPSettings.Default;
     // Post processing timer for interp values
-    float ppInterpTimer = 0f;
+    private float ppInterpTimer = 0f;
     
     //------------------------
     // >>> UI
     //------------------------
     [Header("Header text")]
     [Space(20)]
+    [Tooltip("Text mesh of header (like \"Succesful mission\" text)")]
+    public TMPro.TextMeshProUGUI textMeshHeader;
+    [Tooltip("Text mesh of subheader (like \"You have been caught\" text)")]
+    public TMPro.TextMeshProUGUI textMeshSubheader;
     [Tooltip("'Successful mission' text color")]
     public Color successfulMissionColor;
     [Tooltip("'Failed mission' text color")]
@@ -140,6 +142,26 @@ public class gameController : MonoBehaviour{
         } else {
             UpdateWorth();
         }
+    }
+    
+    // Set mission state to success and display success screen
+    public void SetMissionSuccess(){
+        isPPUpdating = true;
+        ppInterpTimer = 0f;
+        textMeshHeader.SetText(Localization.MISSION_SUCCESSFUL);
+        textMeshSubheader.SetText(Localization.MISSION_SUCCESSFUL_SUB);
+        textMeshHeader.color = successfulMissionColor;
+        whichPPSettingisSet = PPSettings.Success;
+    }
+    
+    // Set mission state to failed and display failed screen
+    public void SetMissionFailed(){
+        isPPUpdating = true;
+        ppInterpTimer = 0f;
+        textMeshHeader.SetText(Localization.MISSION_FAILED);
+        textMeshSubheader.SetText(Localization.MISSION_FAILED_SUB);
+        textMeshHeader.color = failedMissionColor;
+        whichPPSettingisSet = PPSettings.Failed;
     }
     
     // Update equipped item text mesh
@@ -170,7 +192,6 @@ public class gameController : MonoBehaviour{
             gameplayUIGroup.alpha = 1.0f;
         }
     }
-    
     
     // Update post processing settings
     private void UpdatePP(PPSettings a_settings){
@@ -248,18 +269,10 @@ public class gameController : MonoBehaviour{
     void Update(){
         // [DEBUG] change pp settings
         if(Input.GetKeyDown("v")){
-            isPPUpdating = true;
-            ppInterpTimer = 0f;
-            textMeshHeader.SetText(Localization.MISSION_SUCCESSFUL);
-            textMeshHeader.color = successfulMissionColor;
-            whichPPSettingisSet = PPSettings.Success;
+            SetMissionSuccess();
         }
         if(Input.GetKeyDown("b")){
-            isPPUpdating = true;
-            ppInterpTimer = 0f;
-            textMeshHeader.SetText(Localization.MISSION_FAILED);
-            textMeshHeader.color = failedMissionColor;
-            whichPPSettingisSet = PPSettings.Failed;
+            SetMissionFailed();
         }
         if(Input.GetKeyDown("c")){
             isPPUpdating = true;
