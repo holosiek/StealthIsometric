@@ -5,6 +5,7 @@ using UnityEngine;
 public class gameController : MonoBehaviour{
     // #############################################
     // ##### VARIABLES
+    
     [SerializeField]
     [Tooltip("Total loot worth in k$ (current score)")]
     private float currentWorth = 0f;
@@ -32,12 +33,10 @@ public class gameController : MonoBehaviour{
     
     // #############################################
     // ##### EVENTS
+    
+    // On start
     void Start(){
-        // Set application framerate
+        // Set application framerate to current screen refresh rate
         Application.targetFrameRate = Screen.currentResolution.refreshRate;
-    }
-
-    void Update(){
-        
     }
 }
