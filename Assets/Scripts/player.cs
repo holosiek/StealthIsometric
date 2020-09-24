@@ -154,6 +154,13 @@ public class player : MonoBehaviour{
             gameController.ResetLootInfo();
             // Update UI
             gameController.UpdateEquipped();
+        //-----------------------------------------
+        // Else if player enters escape zone trigger
+        } else if(collider.tag.Equals("EscapeZone")){
+            // Apply mission successful state
+            gameController.SetMissionSuccess();
+            // Disable CharacterController
+            characterController.enabled = false;
         }
     }
     

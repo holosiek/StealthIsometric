@@ -294,12 +294,16 @@ public class gameController : MonoBehaviour{
                 isPPUpdating = false;
             }
         }
+        // If PP interp timer is after interpolating main stuff
         if(ppInterpTimer >= 1.0f && ppInterpTimer < 2.0f){
+            // Add to interpolate timer and update results screen
             ppInterpTimer += Time.deltaTime;
             UpdateResults(whichPPSettingisSet);
+        // Otherwise reset timer
         } else if(ppInterpTimer >= 2.0f){
             ppInterpTimer = 0f;
         }
+        // If player failed and they press restart button, reload scene
         if(whichPPSettingisSet == PPSettings.Failed && Input.GetKeyDown("r")){
             SceneManager.LoadScene("SampleScene");
         }
