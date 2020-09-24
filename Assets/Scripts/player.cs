@@ -19,17 +19,33 @@ public class player : MonoBehaviour{
     // #############################################
     // ##### VARIABLES
     
+    //------------------------
+    // >>> Player stats
+    //------------------------
     [Header("Player stats")]
     [Tooltip("Base move speed of player")]
     public float moveSpeed = 5f;
     
+    //------------------------
+    // >>> Camera
+    //------------------------
     [Header("Camera")]
     [Tooltip("Set minimum (X) and maximum (Y) camera zoom levels")]
-    public Vector2 cameraZoomBorders;
-    // Loot information
-    private LootInfo lootInfo;
-    private CharacterController chararacterController;
+    public Vector2 cameraZoomBorders = new Vector2(4.0f, 10.0f);
+    [Tooltip("Camera scroll step every mouse wheel rotation")]
     public float cameraScrollSpeed = 1f;
+    // Camera zoom level
+    private float cameraZoomLevel;
+    
+    //------------------------
+    // >>> Loot
+    //------------------------
+    // Loot information struct
+    private LootInfo lootInfo;
+    // Total time passed while holding loot button and getting loot
+    private float timerToLoot = 0f;
+    
+    private CharacterController chararacterController;
     public GameObject canvasObj;
     
     // Current loot object or null if not in zone of any
@@ -42,7 +58,6 @@ public class player : MonoBehaviour{
     private Vector3 offsetText = new Vector3(0, 150, 0);
     private short lootEntered = 0;
     private List<GameObject> lootableObjects = new List<GameObject>();
-    private float timerToLoot = 0f;
     
     // #############################################
     // ##### METHODS
@@ -140,6 +155,8 @@ public class player : MonoBehaviour{
         currentLootObj = null;
         // Get components and save their references
         chararacterController = GetComponent<CharacterController>();
+        // Set current camera zoom level
+        cameraZoomLevel = Camera.main.orthographicSize;
     }
 
     // Every frame
@@ -171,6 +188,8 @@ public class player : MonoBehaviour{
         if(chararacterController.isGrounded){
             move.y = -0.01f;
         }
+        // Move player around according to move vector
+        chararacterController.Move(move*Time.deltaTime*moveSpeed);
         //----------------------------------
         // If there is any loot to get and player is holding "e" (loot button)
         if(lootEntered > 0 && Input.GetKey("e")){
@@ -197,13 +216,16 @@ public class player : MonoBehaviour{
         // Change zoom of camera with mouse scroll
         if(Input.mouseScrollDelta.y != 0f){
             // Set camera zoom
-            float t_scrollZoom = Camera.main.orthographicSize-Input.mouseScrollDelta.y*cameraScrollSpeed;
-            Camera.main.orthographicSize = Mathf.Clamp(t_scrollZoom, cameraZoomBorders.x, cameraZoomBorders.y);
+            float t_cameraZoom = cameraZoomLevel-Input.mouseScrollDelta.y*cameraScrollSpeed;
+            cameraZoomLevel = Mathf.Clamp(t_cameraZoom, cameraZoomBorders.x, cameraZoomBorders.y);
+            Camera.main.orthographicSize = cameraZoomLevel;
         }
         //----------------------------------
+        // If current lootable object exists and we are in it's trigger
         if(!(currentLootObj is null)){
-            informationTextTransform.position = Camera.main.WorldToScreenPoint(currentLootObj.transform.position)+offsetText*5/Camera.main.orthographicSize;
+            // Set position of pop-up text above it
+            Vector3 t_vec = Camera.main.WorldToScreenPoint(currentLootObj.transform.position);
+            informationTextTransform.position = t_vec+offsetText*5/Camera.main.orthographicSize;
         }
-        chararacterController.Move(move*Time.deltaTime*moveSpeed);
     }
 }
