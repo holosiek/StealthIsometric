@@ -5,6 +5,7 @@ using UnityEngine;
 public class lootInformation : MonoBehaviour{
     // #############################################
     // ##### VARIABLES
+    
     [Range(0.2f, 10f)]
     [Tooltip("Time to loot this in seconds")]
     public float timeToLoot = 1f;

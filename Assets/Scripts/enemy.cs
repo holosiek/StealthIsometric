@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class enemy : MonoBehaviour{
     // #############################################
     // ##### VARIABLES
+    
     //------------------------
     // >>> Enums
     //------------------------

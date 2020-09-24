@@ -680,6 +680,7 @@ MonoBehaviour:
   timeToLoot: 1
   lootScore: 10
   lootName: Gold Bars
+  lootWeight: 2
 --- !u!1 &6682482667802972120
 GameObject:
   m_ObjectHideFlags: 0

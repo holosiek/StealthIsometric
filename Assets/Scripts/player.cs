@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 
@@ -26,6 +27,9 @@ public class player : MonoBehaviour{
     [Range(2.5f, 10f)]
     [Tooltip("Base move speed of player")]
     public float moveSpeed = 5f;
+    [Range(0f, 1f)]
+    [Tooltip("How much weight affects moving (1 weight unit = -1f move speed)")]
+    public float moveWeightPenality = 0.25f;
     
     //------------------------
     // >>> Camera
@@ -59,12 +63,14 @@ public class player : MonoBehaviour{
     [Header("References")]
     [Tooltip("Reference to main game controller")]
     public gameController gameController;
-    [Tooltip("Reference to pop-up text transform")]
+    [Tooltip("Reference to pop-up gameObject")]
+    public GameObject popupObject;
+    [Tooltip("Reference to pop-up transform")]
     public RectTransform popupTransform;
     [Tooltip("Reference to pop-up text component")]
     public TMPro.TextMeshProUGUI popupText;
-    [Tooltip("Reference to 'loot timers' text component")]
-    public TMPro.TextMeshProUGUI lootTimerText;
+    [Tooltip("Reference to action timer foreground circle image")]
+    public Image actionTimerImage;
     // CharacterController component of player
     private CharacterController characterController;
     
@@ -73,6 +79,8 @@ public class player : MonoBehaviour{
     //------------------------
     // Offset of text above lootable objects
     private Vector3 offsetText = new Vector3(0, 150, 0);
+    // Is player interactive with something
+    private bool isInteractive = false;
     
     // #############################################
     // ##### METHODS
@@ -196,7 +204,7 @@ public class player : MonoBehaviour{
             move.z -= 1f;
         }
         // Normalize move vector
-        move = move.normalized;
+        move = move.normalized*(moveSpeed-moveWeightPenality*lootInfo.weight)*Time.deltaTime;
         // Apply small gravity
         move.y = -5f;
         // If player is on ground, apply only friction of gravity
@@ -204,10 +212,12 @@ public class player : MonoBehaviour{
             move.y = -0.01f;
         }
         // Move player around according to move vector
-        characterController.Move(move*Time.deltaTime*moveSpeed);
+        characterController.Move(move);
         //----------------------------------
         // If there is any loot to get and player is holding "e" (loot button)
         if(lootEntered > 0 && Input.GetKey("e")){
+            // Set that player is interative with something
+            isInteractive = true;
             // Add to "holding to loot" timer
             timerToLoot += Time.deltaTime;
             // If our timer passed loot time
@@ -221,12 +231,18 @@ public class player : MonoBehaviour{
                 // Delete object from lootables
                 DeleteLootableObj(currentLootObj);
             }
-        // Otherwise reset timer
+        // Otherwise reset timer and intaractive bool
         } else {
+            isInteractive = false;
             timerToLoot = 0f;
         }
-        // [DEBUG] Update timer information
-        lootTimerText.SetText(timerToLoot.ToString() + "/" + lootInfo.time.ToString());
+        // Set action timer fill amount
+        if(isInteractive){
+            popupObject.SetActive(true);
+            actionTimerImage.fillAmount = timerToLoot/lootInfo.time;
+        } else {
+            popupObject.SetActive(false);
+        }
         //----------------------------------
         // Change zoom of camera with mouse scroll
         if(Input.mouseScrollDelta.y != 0f){
