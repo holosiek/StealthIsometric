@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 
 public class gameController : MonoBehaviour{
     // #############################################
@@ -298,6 +299,9 @@ public class gameController : MonoBehaviour{
             UpdateResults(whichPPSettingisSet);
         } else if(ppInterpTimer >= 2.0f){
             ppInterpTimer = 0f;
+        }
+        if(whichPPSettingisSet == PPSettings.Failed && Input.GetKeyDown("r")){
+            SceneManager.LoadScene("SampleScene");
         }
     }
 }
