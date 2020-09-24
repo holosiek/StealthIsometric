@@ -17836,6 +17836,7 @@ MonoBehaviour:
   successfulMissionColor: {r: 0.56078434, g: 0.90588236, b: 0.21960784, a: 1}
   failedMissionColor: {r: 0.7924528, g: 0.19063722, b: 0.19063722, a: 1}
   gameplayUIGroup: {fileID: 1408243483}
+  resultsUIGroup: {fileID: 35859412}
 --- !u!1 &1981156351
 GameObject:
   m_ObjectHideFlags: 0

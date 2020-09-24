@@ -121,8 +121,10 @@ public class gameController : MonoBehaviour{
     public Color failedMissionColor;
     
     [Header("UI Groups")]
-    [Tooltip("Gameplay UI elements canvas group")]
+    [Tooltip("Gameplay UI canvas group")]
     public CanvasGroup gameplayUIGroup;
+    [Tooltip("Results UI canvas group")]
+    public CanvasGroup resultsUIGroup;
     
     // #############################################
     // ##### METHODS
@@ -187,9 +189,18 @@ public class gameController : MonoBehaviour{
         if(a_settings != PPSettings.Default){
             textMeshHeaderTransform.localScale = new Vector3(Mathf.Min(ppInterpTimer, 1f), Mathf.Min(ppInterpTimer, 1f), 1f);
             gameplayUIGroup.alpha = Mathf.Max(1.0f-ppInterpTimer*2, 0f);
+            resultsUIGroup.alpha = 0f;
         } else {
             textMeshHeaderTransform.localScale = Vector3.zero;
-            gameplayUIGroup.alpha = 1.0f;
+            gameplayUIGroup.alpha = 1f;
+            resultsUIGroup.alpha = 0f;
+        }
+    }
+    
+    // Update header size
+    private void UpdateResults(PPSettings a_settings){
+        if(a_settings != PPSettings.Default){
+            resultsUIGroup.alpha = Mathf.Min(-1.0f+ppInterpTimer, 1f);
         }
     }
     
@@ -266,20 +277,7 @@ public class gameController : MonoBehaviour{
     }
     
     // Every frame
-    void Update(){
-        // [DEBUG] change pp settings
-        if(Input.GetKeyDown("v")){
-            SetMissionSuccess();
-        }
-        if(Input.GetKeyDown("b")){
-            SetMissionFailed();
-        }
-        if(Input.GetKeyDown("c")){
-            isPPUpdating = true;
-            ppInterpTimer = 0f;
-            whichPPSettingisSet = PPSettings.Default;
-        }
-        
+    void Update(){        
         // If PP is updating, interp values of it
         if(isPPUpdating){
             UpdatePP(whichPPSettingisSet);
@@ -293,8 +291,13 @@ public class gameController : MonoBehaviour{
             // If interpolation timer is over 1.0, reset it and we finished updating PP
             if(ppInterpTimer >= 1.0f){
                 isPPUpdating = false;
-                ppInterpTimer = 0f;
             }
+        }
+        if(ppInterpTimer >= 1.0f && ppInterpTimer < 2.0f){
+            ppInterpTimer += Time.deltaTime;
+            UpdateResults(whichPPSettingisSet);
+        } else if(ppInterpTimer >= 2.0f){
+            ppInterpTimer = 0f;
         }
     }
 }
