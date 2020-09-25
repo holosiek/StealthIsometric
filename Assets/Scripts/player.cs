@@ -145,7 +145,7 @@ public class player : MonoBehaviour{
             }
         //-----------------------------------------
         // Else if player enters loot zone trigger
-        } else if(collider.tag.Equals("LootZone")){
+        } else if(collider.tag.Equals("LootZone") && isHoldingLoot){
             // Change holding loot bool to false
             isHoldingLoot = false;
             // Add score
