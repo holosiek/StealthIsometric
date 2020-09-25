@@ -5354,7 +5354,7 @@ GameObject:
   - component: {fileID: 4601369871992729877}
   - component: {fileID: 4601369871992729879}
   - component: {fileID: 4601369871992729876}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Papers Trigger
   m_TagString: Loot
   m_Icon: {fileID: 0}
