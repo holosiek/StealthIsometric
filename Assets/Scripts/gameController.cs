@@ -132,8 +132,8 @@ public class gameController : MonoBehaviour{
     
     // After getting enough money, return to escape zone to "win"
     private void ObjectiveComplete(){
-        textMeshWorthTitle.SetText(Localization.OBJECTIVE_COMPLETED);
-        textMeshWorthScore.SetText(Localization.ESCAPE_READY);
+        textMeshWorthTitle.SetText(Localization.Translate("UI_OBJECTIVE_COMPLETED"));
+        textMeshWorthScore.SetText(Localization.Translate("UI_ESCAPE_READY"));
         escapeZoneObject.SetActive(true);
     }
     
@@ -151,8 +151,8 @@ public class gameController : MonoBehaviour{
     public void SetMissionSuccess(){
         isPPUpdating = true;
         ppInterpTimer = 0f;
-        textMeshHeader.SetText(Localization.MISSION_SUCCESSFUL);
-        textMeshSubheader.SetText(Localization.MISSION_SUCCESSFUL_SUB);
+        textMeshHeader.SetText(Localization.Translate("RESULTS_MISSION_SUCCESSFUL"));
+        textMeshSubheader.SetText(Localization.Translate("RESULTS_MISSION_SUCCESSFUL_SUB"));
         textMeshHeader.color = successfulMissionColor;
         whichPPSettingisSet = PPSettings.Success;
     }
@@ -161,8 +161,8 @@ public class gameController : MonoBehaviour{
     public void SetMissionFailed(){
         isPPUpdating = true;
         ppInterpTimer = 0f;
-        textMeshHeader.SetText(Localization.MISSION_FAILED);
-        textMeshSubheader.SetText(Localization.MISSION_FAILED_SUB);
+        textMeshHeader.SetText(Localization.Translate("RESULTS_MISSION_FAILED"));
+        textMeshSubheader.SetText(Localization.Translate("RESULTS_MISSION_FAILED_SUB"));
         textMeshHeader.color = failedMissionColor;
         whichPPSettingisSet = PPSettings.Failed;
     }
@@ -172,7 +172,7 @@ public class gameController : MonoBehaviour{
         if(String.IsNullOrEmpty(lootInfo.name)){
             imageEquippedItem.sprite = emptySlot;
             textMeshEquippedItem.color = Localization.COLOR_DISABLED;
-            textMeshEquippedItem.SetText("None");
+            textMeshEquippedItem.SetText(Localization.Translate("UI_EMPTY_ITEM"));
         } else {
             imageEquippedItem.sprite = lootInfo.image;
             textMeshEquippedItem.color = Localization.COLOR_INFORMATION;

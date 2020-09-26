@@ -81,10 +81,10 @@ public class player : MonoBehaviour{
     void UpdatePopUp(){
         if(isHoldingLoot){
             popupText.color = Localization.COLOR_DISABLED;
-            popupText.SetText(Localization.TAKE_LOOT_TO_SPAWN);
+            popupText.SetText(Localization.Translate("POPUP_TAKE_LOOT_TO_SPAWN"));
         } else {
             popupText.color = Localization.COLOR_INFORMATION;
-            popupText.SetText(Localization.HOLD_TO_LOOT);
+            popupText.SetText(Localization.Translate("POPUP_HOLD_TO_LOOT"));
         }
     }
     

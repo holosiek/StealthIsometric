@@ -29,7 +29,7 @@ public class enemy : MonoBehaviour{
     //------------------------
     // Amount of rays to cast for "sight area"
     [Range(2, 250)]
-    public int amountOfRays = 100;
+    public int amountOfRays = 250;
     // Angle spread between middle point of "sight area" and given angle
     [Range(20f, 70f)]
     public float angleSpread = 20f;
