@@ -7,7 +7,7 @@ public class Localization {
     // ##### VARIABLES
     
     // Language used as default
-    private static string language = "polish";
+    private static string language = "english";
     
     // Translations
     public static Dictionary<string, Dictionary<string, string>> strings = new Dictionary<string, Dictionary<string, string>>(){

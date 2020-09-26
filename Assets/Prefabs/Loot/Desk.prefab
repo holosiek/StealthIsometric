@@ -5405,7 +5405,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeToLoot: 0.5
-  lootScore: 5
+  lootScore: 20
   lootName: LOOT_PAPERS
   lootWeight: 0
   lootImage: {fileID: 21300000, guid: 067a92ef377f810478a2706eb4352a45, type: 3}

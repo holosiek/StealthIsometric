@@ -678,9 +678,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeToLoot: 1
-  lootScore: 10
+  lootScore: 12.5
   lootName: LOOT_GOLD
-  lootWeight: 2
+  lootWeight: 4
   lootImage: {fileID: 21300000, guid: 3df154c17fe4b764f9606aa4056b8f95, type: 3}
 --- !u!1 &6682482667802972120
 GameObject:
