@@ -71,6 +71,8 @@ public class player : MonoBehaviour{
     private Vector3 offsetText = new Vector3(0, 150, 0);
     // Is player interactive with something
     private bool isInteractive = false;
+    // How many interactables are player whichin
+    private int interactables = 0;
     
     // #############################################
     // ##### METHODS
@@ -90,8 +92,9 @@ public class player : MonoBehaviour{
     void DeleteLootableObj(GameObject a_obj){
         // Remove object from lootable object list
         lootableObjects.Remove(a_obj);
-        // Add -1 to lootable objects counter
+        // Add -1 to lootable objects counter & interactables
         lootEntered--;
+        interactables--;
         // If list is empty
         if(lootEntered == 0){
             // Reset text in pop-up text
@@ -136,8 +139,9 @@ public class player : MonoBehaviour{
                 // Update information about loot in LootInfo struct
                 gameController.UpdateLootInfo(currentLootObj.GetComponent<lootInformation>());
             }
-            // Add +1 to lootable objects counter
+            // Add +1 to lootable objects counter & interactables
             lootEntered++;
+            interactables++;
             // If there is at least 1 lootable object, change text of pop-up text
             if(lootEntered > 0){
                 // Update popup text

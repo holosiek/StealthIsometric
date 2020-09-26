@@ -93,7 +93,7 @@ MonoBehaviour:
   m_Active: 1
   settings:
     passTag: Enemy Visible
-    Event: 500
+    Event: 300
     filterSettings:
       RenderQueueType: 0
       LayerMask:
