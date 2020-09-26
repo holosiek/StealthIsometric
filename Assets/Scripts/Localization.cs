@@ -40,7 +40,7 @@ public class Localization {
             ["UI_DEFAULT_OBJECTIVE"] = "Zbierz łup o wartości:",
             
             ["RESULTS_MISSION_SUCCESSFUL"] = "Misja zakończona sukcesem!",
-            ["RESULTS_MISSION_SUCCESSFUL_SUB"] = "Udało Ci się uciec z zebranem łupem!",
+            ["RESULTS_MISSION_SUCCESSFUL_SUB"] = "Udało Ci się uciec z zebranym łupem!",
             ["RESULTS_MISSION_FAILED"] = "Misja zakończona porażką!",
             ["RESULTS_MISSION_FAILED_SUB"] = "Zostałeś złapany!",
             

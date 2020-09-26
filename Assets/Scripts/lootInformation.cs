@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class lootInformation : MonoBehaviour{
+public class LootInformation : MonoBehaviour{
     // #############################################
     // ##### VARIABLES
     

@@ -75,6 +75,7 @@ public class gameController : MonoBehaviour{
     //------------------------
     // >>> Post processing
     //------------------------
+    
     // Normal post processing settings
     [Header("PP settings - Default")]
     [Space(20)]
@@ -110,6 +111,7 @@ public class gameController : MonoBehaviour{
     //------------------------
     // >>> UI
     //------------------------
+    
     [Header("Header text")]
     [Space(20)]
     [Tooltip("Text mesh of header (like \"Succesful mission\" text)")]
@@ -126,6 +128,12 @@ public class gameController : MonoBehaviour{
     public CanvasGroup gameplayUIGroup;
     [Tooltip("Results UI canvas group")]
     public CanvasGroup resultsUIGroup;
+    
+    //------------------------
+    // >>> Others
+    //------------------------
+    
+    private string sceneToRestart = "SampleScene";
     
     // #############################################
     // ##### METHODS
@@ -205,6 +213,10 @@ public class gameController : MonoBehaviour{
         }
     }
     
+    //------------------------
+    // >>> Post Process
+    //------------------------
+    
     // Update post processing settings
     private void UpdatePP(PPSettings a_settings){
         // Switch settings
@@ -235,7 +247,7 @@ public class gameController : MonoBehaviour{
     //------------------------
     
     // Update information about loot in LootInfo struct
-    public void UpdateLootInfo(lootInformation a_ref){
+    public void UpdateLootInfo(LootInformation a_ref){
         lootInfo.name = a_ref.lootName;
         lootInfo.time = a_ref.timeToLoot;
         lootInfo.worth = a_ref.lootScore;
@@ -305,7 +317,7 @@ public class gameController : MonoBehaviour{
         }
         // If player failed and they press restart button, reload scene
         if(whichPPSettingisSet == PPSettings.Failed && Input.GetKeyDown("r")){
-            SceneManager.LoadScene("SampleScene");
+            SceneManager.LoadScene(sceneToRestart);
         }
     }
 }

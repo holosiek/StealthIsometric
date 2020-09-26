@@ -106,7 +106,7 @@ public class player : MonoBehaviour{
             // Set current lootable object to last visited
             currentLootObj = lootableObjects[lootableObjects.Count-1];
             // Update information about loot in LootInfo struct
-            gameController.UpdateLootInfo(currentLootObj.GetComponent<lootInformation>());
+            gameController.UpdateLootInfo(currentLootObj.GetComponent<LootInformation>());
             // Update popup text
             UpdatePopUp();
         }
@@ -137,7 +137,7 @@ public class player : MonoBehaviour{
             // If player is not holding any loot update information
             if(!isHoldingLoot){
                 // Update information about loot in LootInfo struct
-                gameController.UpdateLootInfo(currentLootObj.GetComponent<lootInformation>());
+                gameController.UpdateLootInfo(currentLootObj.GetComponent<LootInformation>());
             }
             // Add +1 to lootable objects counter & interactables
             lootEntered++;
