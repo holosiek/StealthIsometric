@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7444025057613218875}
   - component: {fileID: 7444025057613218878}
   - component: {fileID: 7010143248030500541}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -118,6 +118,7 @@ MonoBehaviour:
   enemyView: {fileID: 7444025058620018201}
   waypointList:
   - {fileID: 0}
+  gameController: {fileID: 0}
 --- !u!54 &7444025057613218878
 Rigidbody:
   m_ObjectHideFlags: 0
