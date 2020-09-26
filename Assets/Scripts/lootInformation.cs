@@ -22,4 +22,12 @@ public class lootInformation : MonoBehaviour{
     
     [Tooltip("Image of looted item")]
     public Sprite lootImage;
+    
+    // #############################################
+    // ##### EVENTS
+    
+    void Start(){
+        // Translate loot if exists in localization
+        lootName = Localization.Translate(lootName);
+    }
 }

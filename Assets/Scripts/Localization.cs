@@ -27,6 +27,9 @@ public class Localization {
             ["POPUP_HOLD_TO_LOOT"] = "Hold [E] to loot",
             ["POPUP_TAKE_LOOT_TO_SPAWN"] = "Firstly deposit loot at lootzone!",
             
+            ["LOOT_PAPERS"] = "Contract Of Employment",
+            ["LOOT_GOLD"] = "Gold Bars",
+            ["LOOT_MONEY"] = "Money Pile",
         },
         ["polish"] = new Dictionary<string, string>(){
             ["UI_EQUIPPED"] = "Wyposażono:",
@@ -43,6 +46,10 @@ public class Localization {
             
             ["POPUP_HOLD_TO_LOOT"] = "Przytrzymaj [E] by złupić",
             ["POPUP_TAKE_LOOT_TO_SPAWN"] = "Najpierw przynieś łup do depozytu!",
+            
+            ["LOOT_PAPERS"] = "Umowa O Pracę",
+            ["LOOT_GOLD"] = "Sztabki Złota",
+            ["LOOT_MONEY"] = "Worek Pieniędzy",
         }
     };
     
@@ -56,6 +63,10 @@ public class Localization {
     
     // Translate string based on language
     public static string Translate(string a_id){
-        return strings[language][a_id];
+        if(strings[language].ContainsKey(a_id)){
+            return strings[language][a_id];
+        } else {
+            return a_id;
+        }
     }
 }

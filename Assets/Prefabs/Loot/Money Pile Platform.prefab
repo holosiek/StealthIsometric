@@ -5269,6 +5269,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeToLoot: 1
   lootScore: 5
-  lootName: Money Pile
+  lootName: LOOT_MONEY
   lootWeight: 1
   lootImage: {fileID: 21300000, guid: 570a0f8c6afeba2459ba88481366568b, type: 3}
