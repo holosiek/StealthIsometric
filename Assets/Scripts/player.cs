@@ -98,9 +98,11 @@ public class Player : MonoBehaviour{
         switch(currInteractableObjType){
             // If interactable type is loot
             case InteractableObject.InteractableType.Loot: {
+                // If player is holding loot
                 if(isHoldingLoot){
                     popupText.color = Localization.COLOR_DISABLED;
                     popupText.SetText(Localization.Translate("POPUP_TAKE_LOOT_TO_SPAWN"));
+                // Else if player is not holding loot
                 } else {
                     popupText.color = Localization.COLOR_INFORMATION;
                     popupText.SetText(Localization.Translate("POPUP_HOLD_TO_LOOT"));
@@ -276,7 +278,9 @@ public class Player : MonoBehaviour{
             Camera.main.orthographicSize = cameraZoomLevel;
         }
         //----------------------------------
+        // If player is holding E and can interact with something
         if(Input.GetKey("e") && interactableEntered > 0){
+            // If current interactable object is loot type and player is not holding loot
             if(currInteractableObjType == InteractableObject.InteractableType.Loot && !isHoldingLoot){
                 // Set that player is interacting with something
                 isInteractiveActive = true;
@@ -295,6 +299,7 @@ public class Player : MonoBehaviour{
                     // Delete object from lootables
                     DeleteInteractableObj(currInteractableObj);
                 }
+            // Else if it's switch type
             } else if(currInteractableObjType == InteractableObject.InteractableType.Switch){
                 // Set that player is interacting with something
                 isInteractiveActive = true;
@@ -309,18 +314,25 @@ public class Player : MonoBehaviour{
                 }
             }
         } else {
+            // Hide timer and reset interactive timer
             isInteractiveActive = false;
             interactiveTimer = 0f;
         }
         // Set action timer fill amount
         if(isInteractiveActive){
+            // Turn on popup object
             popupObject.SetActive(true);
+            // If current interactable object is loot type
             if(currInteractableObjType == InteractableObject.InteractableType.Loot){
+                // Fill action timer circle depending on loot gathering time
                 actionTimerImage.fillAmount = interactiveTimer/gameControl.lootInfo.time; 
+            // Else if it's not loot type
             } else {
+                // Fill action timer circle depending on interact time
                 actionTimerImage.fillAmount = interactiveTimer/interactableToInteract; 
             }
         } else {
+            // Turn off popup object
             popupObject.SetActive(false);
         }
         //----------------------------------
