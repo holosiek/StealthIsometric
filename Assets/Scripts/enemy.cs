@@ -16,10 +16,10 @@ public class Enemy : MonoBehaviour{
     
     // State enum
     enum States {
-        Idle,
-        Moving,
-        Chasing,
-        Lost
+        Idle,       // patrolling or idling
+        Moving,     // Moving to another point
+        Chasing,    // Chasing player
+        Lost        // Lost vision on player, search for him
     }
     
     // Enemy type enum
@@ -40,20 +40,23 @@ public class Enemy : MonoBehaviour{
     [Tooltip("Amount of rays to cast for \"sight area\"")]
     public int amountOfRays = 250;
     
-    [Range(20f, 70f)]
+    [Range(10f, 70f)]
     [Tooltip("Angle spread between middle point of \"sight area\" and given angle")]
     public float angleSpread = 20f;
     
     [Range(5, 30)]
-    [Tooltip("Angle spread between middle point of \"sight area\" and given angle")]
+    [Tooltip("Length of \"sight area\"")]
     public int raycastDistance = 10;
-    
-    // Calculated degrees between rays
-    private float degreeBetweenRays;
     
     [Tooltip("Mesh Filter which will hold \"sight area\"")]
     public MeshFilter enemyView;
     
+    [Range(10f, 90f)]
+    [Tooltip("When player sight is lost, which angle should enemy rotate to search for him")]
+    public float searchAngle = 40f;
+    
+    // Calculated degrees between rays
+    private float degreeBetweenRays;
     // Offset rays by this value
     private Vector3 raycastOffset = new Vector3(0f, -0.5f, 0f);
     
@@ -87,37 +90,44 @@ public class Enemy : MonoBehaviour{
     private States stateRN = States.Moving;
     // Last detected player position
     private Vector3 lastPlayerPosition;
-    // Step in rotation
+    // Step in rotation (used in Lost state)
     private float rotationStep;
-    // Rotation direction
+    // Rotation direction (used in Lost state)
     private short rotationDir = 0;
-    // Rotation variables used in Lost state
-    private Quaternion rightRotation;
-    private Quaternion leftRotation;
-    private Quaternion orginalRotation;
+    // Rotation variables (used in Lost state)
+    private Quaternion rightRotation, leftRotation, orginalRotation;
     
     // Starting position and rotation used by Guard/TurnAround enemy type
     private Vector3 startPos;
     private Quaternion startRotation;
     
-    // Patroling state used by TurnAround enemy type
-    private short patrolingState = 0;
-    // Patroling timer used by TurnAround enemy type
-    private float patrolingTimer = 0;
-    // Max patroling angle of enemy on idle partoling location used by TurnAround enemy type
-    public float patrolingAngle = 50f;
-    // Patroling time between turning around in seconds used by TurnAround enemy type
-    public float patrolingTimeBetweenNext = 2f;
+    [Space(20)]
+    // patrolling state used by TurnAround enemy type
+    private short patrollingState = 0;
+    // patrolling timer used by TurnAround enemy type
+    private float patrollingTimer = 0;
+    
+    [Space(5)]
+    [Header("TurnAround enemy type:")]
+    [Tooltip("Max patrolling angle of enemy on idle partoling location used by TurnAround enemy type")]
+    public float patrollingAngle = 50f;
+    
+    [Tooltip("patrolling time between turning around in seconds used by TurnAround enemy type")]
+    public float patrollingTimeBetweenNext = 2f;
+    
+    [Tooltip("Turning time while patrolling in seconds used by TurnAround enemy type")]
+    public float patrollingTimeForRotation = 2f;
     
     //------------------------
     // >>> Waypoints system
     //------------------------
     
-    [Space(20)]
+    [Space(5)]
+    [Header("Move enemy type:")]
     [Tooltip("GameObject containing waypoints")]
     public GameObject[] waypointList;
     
-    // Variable holding Nav Mesh Agent
+    // Variable referencing to NavMeshAgent
     private NavMeshAgent navAgent;
     // Point that is currently visited
     private int waypointNow = 0;
@@ -168,133 +178,208 @@ public class Enemy : MonoBehaviour{
     // #############################################
     // ##### STATES
     
-    // State: Idle - Turn around until end of timer
-    private void CheckIfEndOfIdle(){
+    // State: Idle
+    private void IdleState(){
+        // If enemy type is TurnAround
         if(enemyType == Movement.TurnAround){
-            switch(patrolingState){
+            // Switch between patrolling states
+            switch(patrollingState){
                 case 0: {
-                    transform.rotation = Quaternion.Slerp(transform.rotation, startRotation*Quaternion.Euler(0f, patrolingAngle, 0f), patrolingTimer/patrolingTimeBetweenNext);
-                    patrolingTimer += Time.deltaTime;
-                    if(patrolingTimer >= patrolingTimeBetweenNext){
-                        patrolingTimer = 0f;
-                        patrolingState++;
+                    // Slerp rotation to the right
+                    transform.rotation = Quaternion.Slerp(transform.rotation, startRotation*Quaternion.Euler(0f, patrollingAngle, 0f), patrollingTimer/patrollingTimeBetweenNext);
+                    // Add to patrolling timer
+                    patrollingTimer += Time.deltaTime;
+                    // If it's time to change state
+                    if(patrollingTimer >= patrollingTimeBetweenNext){
+                        patrollingTimer = 0f;
+                        patrollingState++;
                     }
                     break;
                 }
                 case 1: {
-                    patrolingTimer += Time.deltaTime;
-                    if(patrolingTimer >= patrolingTimeBetweenNext){
-                        patrolingTimer = 0f;
-                        patrolingState++;
+                    // Add to patrolling timer
+                    patrollingTimer += Time.deltaTime;
+                    // If it's time to change state
+                    if(patrollingTimer >= patrollingTimeForRotation){
+                        patrollingTimer = 0f;
+                        patrollingState++;
                     }
                     break;
                 }
                 case 2: {
-                    transform.rotation = Quaternion.Slerp(transform.rotation, startRotation*Quaternion.Euler(0f, -patrolingAngle, 0f), patrolingTimer/patrolingTimeBetweenNext);
-                    patrolingTimer += Time.deltaTime;
-                    if(patrolingTimer >= patrolingTimeBetweenNext){
-                        patrolingTimer = 0f;
-                        patrolingState++;
+                    // Slerp rotation to the left
+                    transform.rotation = Quaternion.Slerp(transform.rotation, startRotation*Quaternion.Euler(0f, -patrollingAngle, 0f), patrollingTimer/patrollingTimeBetweenNext);
+                    // Add to patrolling timer
+                    patrollingTimer += Time.deltaTime;
+                    // If it's time to change state
+                    if(patrollingTimer >= patrollingTimeBetweenNext){
+                        patrollingTimer = 0f;
+                        patrollingState++;
                     }
                     break;
                 }
                 case 3: {
-                    patrolingTimer += Time.deltaTime;
-                    if(patrolingTimer >= patrolingTimeBetweenNext){
-                        patrolingTimer = 0f;
-                        patrolingState = 0;
+                    // Add to patrolling timer
+                    patrollingTimer += Time.deltaTime;
+                    // If it's time to change state
+                    if(patrollingTimer >= patrollingTimeForRotation){
+                        patrollingTimer = 0f;
+                        patrollingState = 0;
                     }
                     break;
                 }
             }
+        // Else if enemy type is Move
         } else if(enemyType == Movement.Move){
+            // Change state to moving
             stateRN = States.Moving;
+            // Go to next waypoint
             waypointNow++;
+            // If we get out of waypoints bound, set current waypoint to 0
             if(waypointNow >= waypointList.Length){
                 waypointNow = 0;
             }
+            // Set new destination for navagent
             navAgent.SetDestination(waypointList[waypointNow].transform.position);
         }
     }
     
-    // State: Moving - Check if it's end of path
-    private void CheckIfEndOfPath(){
+    // State: Moving
+    private void MovingState(){
+        // If enemy is on destination
         if(IsEndOfRoad()){
+            // If enemy type is Move
             if(enemyType == Movement.Move){
+                // Set state to idle and call idle state method
                 stateRN = States.Idle;
-                CheckIfEndOfIdle();
+                IdleState();
             } else {
-                patrolingTimer += Time.deltaTime;
-                transform.rotation = Quaternion.Slerp(transform.rotation, startRotation, patrolingTimer);
-                if(patrolingTimer >= 1.0f){
-                    patrolingTimer = 0f;
-                    patrolingState = 0;
+                // Add to patrolling timer
+                patrollingTimer += Time.deltaTime;
+                // Slerp rotation towards start position
+                transform.rotation = Quaternion.Slerp(transform.rotation, startRotation, patrollingTimer);
+                // If second passed
+                if(patrollingTimer >= 1.0f){
+                    // Reset patrolling parameters
+                    patrollingTimer = 0f;
+                    patrollingState = 0;
+                    // Set state to idle and call idle state method
                     stateRN = States.Idle;
-                    CheckIfEndOfIdle();
+                    IdleState();
                 }
             }
         }
     }
     
-    // State: Chasing - Move towards player
-    private void GoTowardsPlayer(){
+    // State: Chasing
+    private void ChasingState(){
+        // If there is "gameplay" time
         if(gameController.whichPPSettingisSet == gameController.PPSettings.Default){
+            // Set new destination to player position
             navAgent.SetDestination(lastPlayerPosition);
+            // If it meets destination and there's no player
             if(IsEndOfRoad()){
+                // Reset rotation variables
                 rotationStep = 0f;
                 rotationDir = -1;
+                // Set state to lost player and call it's method
                 stateRN = States.Lost;
-                LostPlayer();
+                LostState();
+            // Else if there's still player in sight and it's chased, rotate faster into it's location
             } else {
                 ChaseRotation();
             }
+        // else if there is any result screen
         } else {
+            // Go back to moving
             stateRN = States.Moving;
-            navAgent.SetDestination(waypointList[waypointNow].transform.position);
+            // If enemy type is Move
+            if(enemyType == Movement.Move){
+                // Go to current waypoint
+                navAgent.SetDestination(waypointList[waypointNow].transform.position);
+            // Else if enemy type is not Move
+            } else {
+                // Set destination to starting position and reset patrolling timer
+                navAgent.SetDestination(startPos);
+                patrollingTimer = 0f;
+            }
         }
     }
     
-    // State: Lost - Try to find player around;
-    private void LostPlayer(){
-        if(rotationDir == -1){
-            rightRotation = transform.rotation*Quaternion.Euler(0f, 20f, 0f);
-            leftRotation = transform.rotation*Quaternion.Euler(0f, -20f, 0f);
-            orginalRotation = transform.rotation;
-            rotationDir = 0;
-        }
-        if(rotationDir == 0){
-            rotationStep += Time.deltaTime*3;
-            if(rotationStep >= 1f){
-                rotationStep = 0f;
+    // State: Lost
+    private void LostState(){
+        // Check between states of rotationDir
+        switch(rotationDir){
+            case -1: {
+                // Set rotation variables based on current rotation
+                rightRotation = transform.rotation*Quaternion.Euler(0f, searchAngle, 0f);
+                leftRotation = transform.rotation*Quaternion.Euler(0f, -searchAngle, 0f);
+                orginalRotation = transform.rotation;
+                // Go to next state
                 rotationDir++;
+                break;
             }
-        } else if(rotationDir == 1){
-            transform.rotation = Quaternion.Slerp(orginalRotation, rightRotation, rotationStep);
-            rotationStep += Time.deltaTime;
-            if(rotationStep >= 1f){
-                rotationStep = 0f;
-                rotationDir++;
-            }
-        } else if(rotationDir == 2){
-            transform.rotation = Quaternion.Slerp(rightRotation, leftRotation, rotationStep);
-            rotationStep += Time.deltaTime/2;
-            if(rotationStep >= 1f){
-                rotationStep = 0f;
-                rotationDir++;
-            }
-        } else {
-            transform.rotation = Quaternion.Slerp(leftRotation, orginalRotation, rotationStep);
-            rotationStep += Time.deltaTime;
-            if(rotationStep >= 1f){
-                stateRN = States.Moving;
-                if(enemyType == Movement.Move){
-                    navAgent.SetDestination(waypointList[waypointNow].transform.position);
-                } else {
-                    navAgent.SetDestination(startPos);
-                    patrolingTimer = 0f;
+            case 0: {
+                // Wait before searching
+                rotationStep += Time.deltaTime*3;
+                // After time passes
+                if(rotationStep >= 1f){
+                    // Reset rotationStep timer and go to next state
+                    rotationStep = 0f;
+                    rotationDir++;
                 }
-                rotationStep = 0f;
-                rotationDir = -1;
+                break;
+            }
+            case 1: {
+                // Slerp rotation towards right direction
+                transform.rotation = Quaternion.Slerp(transform.rotation, rightRotation, rotationStep);
+                // Add to rotationStep timer
+                rotationStep += Time.deltaTime;
+                // After time passes
+                if(rotationStep >= 1f){
+                    // Reset rotationStep timer and go to next state
+                    rotationStep = 0f;
+                    rotationDir++;
+                }
+                break;
+            }
+            case 2: {
+                // Slerp rotation towards left direction
+                transform.rotation = Quaternion.Slerp(transform.rotation, leftRotation, rotationStep);
+                // Add to rotationStep timer
+                rotationStep += Time.deltaTime;
+                // After time passes
+                if(rotationStep >= 1f){
+                    // Reset rotationStep timer and go to next state
+                    rotationStep = 0f;
+                    rotationDir++;
+                }
+                break;
+            }
+            case 3: {
+                // Slerp rotation towards orginal direction (before rotating)
+                transform.rotation = Quaternion.Slerp(transform.rotation, orginalRotation, rotationStep);
+                // Add to rotationStep timer
+                rotationStep += Time.deltaTime;
+                // After time passes
+                if(rotationStep >= 1f){
+                    // Change state to move
+                    stateRN = States.Moving;
+                    // If enemy type is Move
+                    if(enemyType == Movement.Move){
+                        // Set current waypoint as new destination
+                        navAgent.SetDestination(waypointList[waypointNow].transform.position);
+                    // Else if enemy type is not Move
+                    } else {
+                        // Set current destination as starting positiong and reset patrolling timer
+                        navAgent.SetDestination(startPos);
+                        patrollingTimer = 0f;
+                    }
+                    // Reset rotation state and timer
+                    rotationStep = 0f;
+                    rotationDir = -1;
+                }
+                break;
             }
         }
     }
@@ -306,7 +391,7 @@ public class Enemy : MonoBehaviour{
         // Initialize all variables, settings etc.
         UpdateSightAreaMesh();
              
-        // Create mesh and append it to Mesh Filter
+        // Create mesh and apply it to Mesh Filter
         mesh = new Mesh();
         enemyView.mesh = mesh;
         
@@ -314,9 +399,11 @@ public class Enemy : MonoBehaviour{
         startPos = transform.position;
         startRotation = transform.rotation;
         
-        // Get Nav Mesh Agent compontent and set it's first destination
+        // Get Nav Mesh Agent compontent and set it's first destination if it's Move type
         navAgent = GetComponent<NavMeshAgent>();
-        navAgent.SetDestination(waypointList[waypointNow].transform.position);
+        if(enemyType == Movement.Move){
+            navAgent.SetDestination(waypointList[waypointNow].transform.position);
+        }
     }
     
     void OnValidate(){
@@ -327,7 +414,7 @@ public class Enemy : MonoBehaviour{
     void FixedUpdate(){
         // Calculate raycast origin
         Vector3 raycastPos = transform.position + raycastOffset;
-        // Initialize RaycastHit reference and if player is found;
+        // Initialize RaycastHit reference and if player is hit by ray bool
         RaycastHit hit;
         bool isPlayerHit = false;
         
@@ -348,6 +435,7 @@ public class Enemy : MonoBehaviour{
                     lastPlayerPosition = hit.collider.transform.position;
                     // Player is hit
                     isPlayerHit = true;
+                    // Raycast again, this time against walls
                     if(Physics.Raycast(raycastPos, rayDir, out hit, raycastDistance, (int)LayerIndexes.Walls)){
                         // Add raycast hit point to array
                         raysPoints[i+1] = transform.InverseTransformPoint(hit.point)+raycastOffset;
@@ -376,43 +464,43 @@ public class Enemy : MonoBehaviour{
         mesh.vertices = raysPoints;
         mesh.triangles = triangles;
         
-        // If player was hit
+        // If player was hit, change state to chasing
         if(isPlayerHit){
             stateRN = States.Chasing;
         }
         
-        // Check state
+        // Call state methods depending on enemy type
         if(enemyType == Movement.Move || enemyType == Movement.TurnAround){
             switch(stateRN){
                 case States.Idle: {
-                    CheckIfEndOfIdle();
+                    IdleState();
                     break;
                 }
                 case States.Moving: {
-                    CheckIfEndOfPath();
+                    MovingState();
                     break;
                 }
                 case States.Chasing: {
-                    GoTowardsPlayer();
+                    ChasingState();
                     break;
                 }
                 case States.Lost: {
-                    LostPlayer();
+                    LostState();
                     break;
                 }
             }
         } else {
             switch(stateRN){
                 case States.Moving: {
-                    CheckIfEndOfPath();
+                    MovingState();
                     break;
                 }
                 case States.Chasing: {
-                    GoTowardsPlayer();
+                    ChasingState();
                     break;
                 }
                 case States.Lost: {
-                    LostPlayer();
+                    LostState();
                     break;
                 }
             }
