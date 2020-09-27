@@ -296,6 +296,9 @@ public class GameController : MonoBehaviour{
         // Set application framerate to current screen refresh rate
         Application.targetFrameRate = Screen.currentResolution.refreshRate;
         
+        // Hide cursor
+        Cursor.visible = false;
+        
         // Init loot information struct
         lootInfo = new LootInfo();
         ResetLootInfo();

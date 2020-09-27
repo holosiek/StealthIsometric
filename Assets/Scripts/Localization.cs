@@ -26,6 +26,7 @@ public class Localization {
             
             ["POPUP_HOLD_TO_LOOT"] = "Hold [E] to loot",
             ["POPUP_TAKE_LOOT_TO_SPAWN"] = "Firstly deposit loot at lootzone!",
+            ["POPUP_HOLD_TO_SWITCH"] = "Hold [E] to switch lever",
             
             ["LOOT_PAPERS"] = "Contract Of Employment",
             ["LOOT_GOLD"] = "Gold Bars",
@@ -46,6 +47,7 @@ public class Localization {
             
             ["POPUP_HOLD_TO_LOOT"] = "Przytrzymaj [E] by złupić",
             ["POPUP_TAKE_LOOT_TO_SPAWN"] = "Najpierw przynieś łup do depozytu!",
+            ["POPUP_HOLD_TO_SWITCH"] = "Przytrzymaj [E] by pociągnąć dźwignię",
             
             ["LOOT_PAPERS"] = "Umowa O Pracę",
             ["LOOT_GOLD"] = "Sztabki Złota",

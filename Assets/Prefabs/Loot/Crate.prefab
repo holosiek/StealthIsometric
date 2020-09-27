@@ -629,9 +629,10 @@ GameObject:
   - component: {fileID: 4064254712884478740}
   - component: {fileID: 8069112510176432817}
   - component: {fileID: 6268974294257955751}
+  - component: {fileID: 85880671423699991}
   m_Layer: 0
   m_Name: Loot Trigger
-  m_TagString: Loot
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -682,6 +683,19 @@ MonoBehaviour:
   lootName: LOOT_GOLD
   lootWeight: 4
   lootImage: {fileID: 21300000, guid: 3df154c17fe4b764f9606aa4056b8f95, type: 3}
+--- !u!114 &85880671423699991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527215932472827283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aba291db30b66649ba9e2ba7ec229fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objType: 0
 --- !u!1 &6682482667802972120
 GameObject:
   m_ObjectHideFlags: 0

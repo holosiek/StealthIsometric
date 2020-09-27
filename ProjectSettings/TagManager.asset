@@ -6,9 +6,9 @@ TagManager:
   tags:
   - Enemy
   - Wall
-  - Loot
   - LootZone
   - EscapeZone
+  - Interactable
   layers:
   - Default
   - TransparentFX

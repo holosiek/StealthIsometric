@@ -5219,9 +5219,10 @@ GameObject:
   - component: {fileID: 849457680053223414}
   - component: {fileID: 849457680053223417}
   - component: {fileID: 849457680053223416}
+  - component: {fileID: 7504450060988002505}
   m_Layer: 0
   m_Name: Money Pile Trigger
-  m_TagString: Loot
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5272,3 +5273,16 @@ MonoBehaviour:
   lootName: LOOT_MONEY
   lootWeight: 1
   lootImage: {fileID: 21300000, guid: 570a0f8c6afeba2459ba88481366568b, type: 3}
+--- !u!114 &7504450060988002505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 849457680053223419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aba291db30b66649ba9e2ba7ec229fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objType: 0

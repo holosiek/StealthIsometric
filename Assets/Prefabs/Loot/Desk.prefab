@@ -5354,9 +5354,10 @@ GameObject:
   - component: {fileID: 4601369871992729877}
   - component: {fileID: 4601369871992729879}
   - component: {fileID: 4601369871992729876}
+  - component: {fileID: 2451038872253531455}
   m_Layer: 0
   m_Name: Papers Trigger
-  m_TagString: Loot
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
   m_StaticEditorFlags: 0
@@ -5409,3 +5410,16 @@ MonoBehaviour:
   lootName: LOOT_PAPERS
   lootWeight: 0
   lootImage: {fileID: 21300000, guid: 067a92ef377f810478a2706eb4352a45, type: 3}
+--- !u!114 &2451038872253531455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4601369871992729874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aba291db30b66649ba9e2ba7ec229fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objType: 0
