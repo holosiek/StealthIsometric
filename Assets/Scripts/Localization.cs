@@ -63,8 +63,11 @@ public class Localization {
     
     // Translate string based on language
     public static string Translate(string a_id){
+        // If ID exists in translation, return that string; If not, check for english, otherwise return id
         if(strings[language].ContainsKey(a_id)){
             return strings[language][a_id];
+        } else if(strings["english"].ContainsKey(a_id)){
+            return strings["english"][a_id];
         } else {
             return a_id;
         }
