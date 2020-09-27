@@ -2490,6 +2490,10 @@ PrefabInstance:
       propertyPath: enemyType
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7444025057613218875, guid: 7810547df4c78264bb124d9de5d67382, type: 3}
+      propertyPath: gameControl
+      value: 
+      objectReference: {fileID: 1970914210}
     - target: {fileID: 7444025057613218879, guid: 7810547df4c78264bb124d9de5d67382, type: 3}
       propertyPath: m_LocalPosition.x
       value: 14.375
@@ -7998,6 +8002,10 @@ PrefabInstance:
       propertyPath: patrollingTimeForRotation
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7444025057613218875, guid: 7810547df4c78264bb124d9de5d67382, type: 3}
+      propertyPath: gameControl
+      value: 
+      objectReference: {fileID: 1970914210}
     - target: {fileID: 7444025057613218879, guid: 7810547df4c78264bb124d9de5d67382, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.125
@@ -27758,6 +27766,10 @@ PrefabInstance:
       propertyPath: patrollingTimeForRotation
       value: 2.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7444025057613218875, guid: 7810547df4c78264bb124d9de5d67382, type: 3}
+      propertyPath: gameControl
+      value: 
+      objectReference: {fileID: 1970914210}
     - target: {fileID: 7444025057613218879, guid: 7810547df4c78264bb124d9de5d67382, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.375
@@ -66013,7 +66025,7 @@ GameObject:
   - component: {fileID: 1316067960}
   - component: {fileID: 1316067959}
   - component: {fileID: 1316067958}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Background Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68188,7 +68200,7 @@ GameObject:
   - component: {fileID: 1393964964}
   - component: {fileID: 1393964963}
   - component: {fileID: 1393964962}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Building 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76830,6 +76842,10 @@ PrefabInstance:
       propertyPath: enemyType
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7444025057613218875, guid: 7810547df4c78264bb124d9de5d67382, type: 3}
+      propertyPath: gameControl
+      value: 
+      objectReference: {fileID: 1970914210}
     - target: {fileID: 7444025057613218879, guid: 7810547df4c78264bb124d9de5d67382, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9.25
@@ -79826,6 +79842,10 @@ PrefabInstance:
       propertyPath: enemyType
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7444025057613218875, guid: 7810547df4c78264bb124d9de5d67382, type: 3}
+      propertyPath: gameControl
+      value: 
+      objectReference: {fileID: 1970914210}
     - target: {fileID: 7444025057613218879, guid: 7810547df4c78264bb124d9de5d67382, type: 3}
       propertyPath: m_LocalPosition.x
       value: -11.5
@@ -79909,7 +79929,7 @@ MonoBehaviour:
   moveWeightPenality: 1
   cameraZoomBorders: {x: 4, y: 10}
   cameraScrollSpeed: 0.5
-  gameController: {fileID: 1970914210}
+  gameControl: {fileID: 1970914210}
   popupObject: {fileID: 561583262}
   popupTransform: {fileID: 1118075061}
   popupText: {fileID: 772070879}
@@ -80134,6 +80154,10 @@ PrefabInstance:
       propertyPath: enemyType
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7444025057613218875, guid: 7810547df4c78264bb124d9de5d67382, type: 3}
+      propertyPath: gameControl
+      value: 
+      objectReference: {fileID: 1970914210}
     - target: {fileID: 7444025057613218879, guid: 7810547df4c78264bb124d9de5d67382, type: 3}
       propertyPath: m_LocalPosition.x
       value: -11.5
@@ -80818,6 +80842,10 @@ PrefabInstance:
     - target: {fileID: 3768826846610314184, guid: cb9f1ca6686b2514ab37e7758f740f49, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3768826846610314184, guid: cb9f1ca6686b2514ab37e7758f740f49, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4074906490564570003, guid: cb9f1ca6686b2514ab37e7758f740f49, type: 3}
       propertyPath: m_StaticEditorFlags

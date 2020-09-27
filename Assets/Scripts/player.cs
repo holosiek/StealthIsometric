@@ -52,7 +52,7 @@ public class player : MonoBehaviour{
     //------------------------
     [Header("References")]
     [Tooltip("Reference to main game controller")]
-    public gameController gameController;
+    public GameController gameControl;
     [Tooltip("Reference to pop-up gameObject")]
     public GameObject popupObject;
     [Tooltip("Reference to pop-up transform")]
@@ -106,7 +106,7 @@ public class player : MonoBehaviour{
             // Set current lootable object to last visited
             currentLootObj = lootableObjects[lootableObjects.Count-1];
             // Update information about loot in LootInfo struct
-            gameController.UpdateLootInfo(currentLootObj.GetComponent<LootInformation>());
+            gameControl.UpdateLootInfo(currentLootObj.GetComponent<LootInformation>());
             // Update popup text
             UpdatePopUp();
         }
@@ -118,8 +118,8 @@ public class player : MonoBehaviour{
     // On collision enter
     void OnCollisionEnter(Collision collision){
         // If player collides with enemy, restart game
-        if(collision.collider.tag.Equals("Enemy") && gameController.whichPPSettingisSet == gameController.PPSettings.Default){
-            gameController.SetMissionFailed();
+        if(collision.collider.tag.Equals("Enemy") && gameControl.whichPPSettingisSet == GameController.PPSettings.Default){
+            gameControl.SetMissionFailed();
             characterController.enabled = false;
         }
     }
@@ -137,7 +137,7 @@ public class player : MonoBehaviour{
             // If player is not holding any loot update information
             if(!isHoldingLoot){
                 // Update information about loot in LootInfo struct
-                gameController.UpdateLootInfo(currentLootObj.GetComponent<LootInformation>());
+                gameControl.UpdateLootInfo(currentLootObj.GetComponent<LootInformation>());
             }
             // Add +1 to lootable objects counter & interactables
             lootEntered++;
@@ -153,16 +153,16 @@ public class player : MonoBehaviour{
             // Change holding loot bool to false
             isHoldingLoot = false;
             // Add score
-            gameController.AddToWorth(gameController.lootInfo.worth);
+            gameControl.AddToWorth(gameControl.lootInfo.worth);
             // Reset information about loot
-            gameController.ResetLootInfo();
+            gameControl.ResetLootInfo();
             // Update UI
-            gameController.UpdateEquipped();
+            gameControl.UpdateEquipped();
         //-----------------------------------------
         // Else if player enters escape zone trigger
         } else if(collider.tag.Equals("EscapeZone")){
             // Apply mission successful state
-            gameController.SetMissionSuccess();
+            gameControl.SetMissionSuccess();
             // Disable CharacterController
             characterController.enabled = false;
         }
@@ -210,7 +210,7 @@ public class player : MonoBehaviour{
         }
         // Normalize move vector and set speed depending if holding loot
         if(isHoldingLoot){
-            move = move.normalized*(moveSpeed-moveWeightPenality*gameController.lootInfo.weight)*Time.deltaTime;
+            move = move.normalized*(moveSpeed-moveWeightPenality*gameControl.lootInfo.weight)*Time.deltaTime;
         } else {
             move = move.normalized*(moveSpeed)*Time.deltaTime;
         }
@@ -221,7 +221,7 @@ public class player : MonoBehaviour{
             move.y = -0.01f;
         }
         // Move player around according to move vector
-        if(gameController.whichPPSettingisSet == gameController.PPSettings.Default){
+        if(gameControl.whichPPSettingisSet == GameController.PPSettings.Default){
             characterController.Move(move);
         }
         //----------------------------------
@@ -232,7 +232,7 @@ public class player : MonoBehaviour{
             // Add to "holding to loot" timer
             timerToLoot += Time.deltaTime;
             // If our timer passed loot time
-            if(timerToLoot >= gameController.lootInfo.time){
+            if(timerToLoot >= gameControl.lootInfo.time){
                 // Reset that timer
                 timerToLoot = 0f;
                 // Set current lootable object as not active
@@ -240,7 +240,7 @@ public class player : MonoBehaviour{
                 // Change bool to true, because now we hold equipped loot
                 isHoldingLoot = true;
                 // Update UI
-                gameController.UpdateEquipped();
+                gameControl.UpdateEquipped();
                 // Delete object from lootables
                 DeleteLootableObj(currentLootObj);
             }
@@ -252,7 +252,7 @@ public class player : MonoBehaviour{
         // Set action timer fill amount
         if(isInteractive){
             popupObject.SetActive(true);
-            actionTimerImage.fillAmount = timerToLoot/gameController.lootInfo.time;
+            actionTimerImage.fillAmount = timerToLoot/gameControl.lootInfo.time;
         } else {
             popupObject.SetActive(false);
         }

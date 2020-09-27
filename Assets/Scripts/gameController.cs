@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
-public class gameController : MonoBehaviour{
+public class GameController : MonoBehaviour{
     // #############################################
     // ##### STRUCTS
     
@@ -37,7 +37,7 @@ public class gameController : MonoBehaviour{
     private float currentWorth = 0f;
     
     [Tooltip("Loot worth to get in k$ (score objective)")]
-    public float totalWorth = 500f;
+    public float totalWorth = 50f;
     
     [Header("References to components")]
     [Tooltip("Text mesh holding game objective title")]
@@ -58,7 +58,7 @@ public class gameController : MonoBehaviour{
     private ColorAdjustments postProcessColorAdjustments;
     
     [Header("References to objects")]
-    [Tooltip("Escape Zone reference, it will appear after objective being completed")]
+    [Tooltip("Escape Zone reference, it will appear after objective will be completed")]
     public GameObject escapeZoneObject;
     
     [Header("UI related stuff")]
@@ -133,6 +133,7 @@ public class gameController : MonoBehaviour{
     // >>> Others
     //------------------------
     
+    // Scene which we will restart after fail/success
     private string sceneToRestart = "SampleScene";
     
     // #############################################
@@ -140,16 +141,21 @@ public class gameController : MonoBehaviour{
     
     // After getting enough money, return to escape zone to "win"
     private void ObjectiveComplete(){
+        // Update text information on objective
         textMeshWorthTitle.SetText(Localization.Translate("UI_OBJECTIVE_COMPLETED"));
         textMeshWorthScore.SetText(Localization.Translate("UI_ESCAPE_READY"));
+        // Turn escape object on
         escapeZoneObject.SetActive(true);
     }
     
     // Add score and update UI text about worth
     public void AddToWorth(float a_amount){
+        // Add to current worth
         currentWorth += a_amount;
+        // If current worth is bigger or equal our objective, set objective as completed
         if(currentWorth >= totalWorth){
             ObjectiveComplete();
+        // Else just update objective score
         } else {
             UpdateWorth();
         }
@@ -157,31 +163,43 @@ public class gameController : MonoBehaviour{
     
     // Set mission state to success and display success screen
     public void SetMissionSuccess(){
+        // Set "is post processing in phase of updating" to true
         isPPUpdating = true;
+        // Reset pp interpolation timer
         ppInterpTimer = 0f;
+        // Update results screen text
         textMeshHeader.SetText(Localization.Translate("RESULTS_MISSION_SUCCESSFUL"));
         textMeshSubheader.SetText(Localization.Translate("RESULTS_MISSION_SUCCESSFUL_SUB"));
         textMeshHeader.color = successfulMissionColor;
+        // Set which PP setting is used to success
         whichPPSettingisSet = PPSettings.Success;
     }
     
     // Set mission state to failed and display failed screen
     public void SetMissionFailed(){
+        // Set "is post processing in phase of updating" to true
         isPPUpdating = true;
+        // Reset pp interpolation timer
         ppInterpTimer = 0f;
+        // Update results screen text
         textMeshHeader.SetText(Localization.Translate("RESULTS_MISSION_FAILED"));
         textMeshSubheader.SetText(Localization.Translate("RESULTS_MISSION_FAILED_SUB"));
         textMeshHeader.color = failedMissionColor;
+        // Set which PP setting is used to failed
         whichPPSettingisSet = PPSettings.Failed;
     }
     
     // Update equipped item text mesh
     public void UpdateEquipped(){
+        // If there's no loot taken
         if(String.IsNullOrEmpty(lootInfo.name)){
+            // Set current item as empty
             imageEquippedItem.sprite = emptySlot;
             textMeshEquippedItem.color = Localization.COLOR_DISABLED;
             textMeshEquippedItem.SetText(Localization.Translate("UI_EMPTY_ITEM"));
+        // Else player is holding loot
         } else {
+            // Set current item as held loot
             imageEquippedItem.sprite = lootInfo.image;
             textMeshEquippedItem.color = Localization.COLOR_INFORMATION;
             textMeshEquippedItem.SetText(lootInfo.name);
@@ -195,11 +213,15 @@ public class gameController : MonoBehaviour{
     
     // Update header size
     private void UpdateHeader(PPSettings a_settings){
+        // If argument PPsettings are different from default
         if(a_settings != PPSettings.Default){
+            // Interpolate scale of results screen
             textMeshHeaderTransform.localScale = new Vector3(Mathf.Min(ppInterpTimer, 1f), Mathf.Min(ppInterpTimer, 1f), 1f);
             gameplayUIGroup.alpha = Mathf.Max(1.0f-ppInterpTimer*2, 0f);
             resultsUIGroup.alpha = 0f;
+        // Else if argument PPsetting is default
         } else {
+            // Set header scale to 0 and turn on gameplay UI
             textMeshHeaderTransform.localScale = Vector3.zero;
             gameplayUIGroup.alpha = 1f;
             resultsUIGroup.alpha = 0f;
@@ -208,7 +230,9 @@ public class gameController : MonoBehaviour{
     
     // Update header size
     private void UpdateResults(PPSettings a_settings){
+        // If argument PPsettings is not default
         if(a_settings != PPSettings.Default){
+            // Interpolate alpha of results screen
             resultsUIGroup.alpha = Mathf.Min(-1.0f+ppInterpTimer, 1f);
         }
     }
@@ -276,14 +300,14 @@ public class gameController : MonoBehaviour{
         lootInfo = new LootInfo();
         ResetLootInfo();
         
+        // Save references to post process volume settings
+        postProcessVolume.profile.TryGet<Vignette>(out postProcessVignette);
+        postProcessVolume.profile.TryGet<ColorAdjustments>(out postProcessColorAdjustments);
+        
         // Update UI
         UpdateWorth();
         UpdateEquipped();
         UpdateHeader(whichPPSettingisSet);
-        
-        // Save references to post process volume settings
-        postProcessVolume.profile.TryGet<Vignette>(out postProcessVignette);
-        postProcessVolume.profile.TryGet<ColorAdjustments>(out postProcessColorAdjustments);
         
         // Set post process settings to default
         UpdatePP(PPSettings.Default);
@@ -306,6 +330,7 @@ public class gameController : MonoBehaviour{
                 isPPUpdating = false;
             }
         }
+        
         // If PP interp timer is after interpolating main stuff
         if(ppInterpTimer >= 1.0f && ppInterpTimer < 2.0f){
             // Add to interpolate timer and update results screen
@@ -315,7 +340,8 @@ public class gameController : MonoBehaviour{
         } else if(ppInterpTimer >= 2.0f){
             ppInterpTimer = 0f;
         }
-        // If player failed and they press restart button, reload scene
+        
+        // If player failed or succeed and they press restart button, reload scene
         if(whichPPSettingisSet != PPSettings.Default && Input.GetKeyDown("r")){
             SceneManager.LoadScene(sceneToRestart);
         }

@@ -76,7 +76,7 @@ public class Enemy : MonoBehaviour{
     //------------------------
     
     [Tooltip("Reference to GameController")]
-    public gameController gameController;
+    public GameController gameControl;
     
     //------------------------
     // >>> States
@@ -274,7 +274,7 @@ public class Enemy : MonoBehaviour{
     // State: Chasing
     private void ChasingState(){
         // If there is "gameplay" time
-        if(gameController.whichPPSettingisSet == gameController.PPSettings.Default){
+        if(gameControl.whichPPSettingisSet == GameController.PPSettings.Default){
             // Set new destination to player position
             navAgent.SetDestination(lastPlayerPosition);
             // If it meets destination and there's no player
