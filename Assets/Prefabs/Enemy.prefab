@@ -116,9 +116,19 @@ MonoBehaviour:
   angleSpread: 20
   raycastDistance: 10
   enemyView: {fileID: 7444025058620018201}
+  searchAngle: 40
+  gameControl: {fileID: 0}
+  sightAreaRenderer: {fileID: 7444025058620018203}
+  sightAreaMaterials:
+  - {fileID: 2100000, guid: 068667163eaf49c45952413859f72a6e, type: 2}
+  - {fileID: 2100000, guid: 5b271124608395244ab6c964f81be8a6, type: 2}
+  - {fileID: 2100000, guid: 278df815e7777da45842f376b34b1ede, type: 2}
+  enemyType: 2
+  patrollingAngle: 50
+  patrollingTimeBetweenNext: 2
+  patrollingTimeForRotation: 2
   waypointList:
   - {fileID: 0}
-  gameController: {fileID: 0}
 --- !u!54 &7444025057613218878
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -146,7 +156,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: 40
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0

@@ -5271,7 +5271,7 @@ MonoBehaviour:
   timeToLoot: 1
   lootScore: 5
   lootName: LOOT_MONEY
-  lootWeight: 1
+  lootWeight: 3
   lootImage: {fileID: 21300000, guid: 570a0f8c6afeba2459ba88481366568b, type: 3}
 --- !u!114 &7504450060988002505
 MonoBehaviour:
@@ -5286,3 +5286,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objType: 0
+  objInteractTime: 0

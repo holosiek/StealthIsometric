@@ -78,6 +78,12 @@ public class Enemy : MonoBehaviour{
     [Tooltip("Reference to GameController")]
     public GameController gameControl;
     
+    [Tooltip("Reference to sight area renderer")]
+    public Renderer sightAreaRenderer;
+    
+    [Tooltip("References to materials used for sight area")]
+    public Material[] sightAreaMaterials;
+    
     //------------------------
     // >>> States
     //------------------------
@@ -282,6 +288,8 @@ public class Enemy : MonoBehaviour{
                 // Reset rotation variables
                 rotationStep = 0f;
                 rotationDir = -1;
+                // Set material to "lost player"
+                sightAreaRenderer.material = sightAreaMaterials[2];
                 // Set state to lost player and call it's method
                 stateRN = States.Lost;
                 LostState();
@@ -365,6 +373,8 @@ public class Enemy : MonoBehaviour{
                 if(rotationStep >= 1f){
                     // Change state to move
                     stateRN = States.Moving;
+                    // Set material to "Player unseen"
+                    sightAreaRenderer.material = sightAreaMaterials[0];
                     // If enemy type is Move
                     if(enemyType == Movement.Move){
                         // Set current waypoint as new destination
@@ -465,7 +475,9 @@ public class Enemy : MonoBehaviour{
         mesh.triangles = triangles;
         
         // If player was hit, change state to chasing
-        if(isPlayerHit){
+        if(stateRN != States.Chasing && isPlayerHit){
+            // Set material to "Chasing player"
+            sightAreaRenderer.material = sightAreaMaterials[1];
             stateRN = States.Chasing;
         }
         
