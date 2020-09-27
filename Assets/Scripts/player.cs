@@ -208,8 +208,12 @@ public class player : MonoBehaviour{
             move.x += 1f;
             move.z -= 1f;
         }
-        // Normalize move vector
-        move = move.normalized*(moveSpeed-moveWeightPenality*gameController.lootInfo.weight)*Time.deltaTime;
+        // Normalize move vector and set speed depending if holding loot
+        if(isHoldingLoot){
+            move = move.normalized*(moveSpeed-moveWeightPenality*gameController.lootInfo.weight)*Time.deltaTime;
+        } else {
+            move = move.normalized*(moveSpeed)*Time.deltaTime;
+        }
         // Apply small gravity
         move.y = -5f;
         // If player is on ground, apply only friction of gravity

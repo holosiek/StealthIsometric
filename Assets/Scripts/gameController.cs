@@ -316,8 +316,13 @@ public class gameController : MonoBehaviour{
             ppInterpTimer = 0f;
         }
         // If player failed and they press restart button, reload scene
-        if(whichPPSettingisSet == PPSettings.Failed && Input.GetKeyDown("r")){
+        if(whichPPSettingisSet != PPSettings.Default && Input.GetKeyDown("r")){
             SceneManager.LoadScene(sceneToRestart);
+        }
+        
+        // If player hits "escape", quit application
+        if(Input.GetKey("escape")){
+            Application.Quit();
         }
     }
 }
