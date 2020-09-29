@@ -216,6 +216,8 @@ public class Player : MonoBehaviour{
             gameControl.SetMissionSuccess();
             // Disable CharacterController
             characterController.enabled = false;
+            // Play win sound
+            FindObjectOfType<AudioManager>().Play("Win");
         }
     }
     
