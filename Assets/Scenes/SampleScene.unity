@@ -37059,11 +37059,19 @@ MonoBehaviour:
     autoplay: 0
     source: {fileID: 0}
   - name: Packing
-    clip: {fileID: 8300000, guid: 35d1bb7688dbd9f498fe515522011719, type: 3}
-    volume: 0.5
+    clip: {fileID: 8300000, guid: a74c614f950e1cc4b948d7088931cbea, type: 3}
+    volume: 0.25
     pitch: 1
     pitchRandom: 0.25
     loop: 1
+    autoplay: 0
+    source: {fileID: 0}
+  - name: Throwing Loot
+    clip: {fileID: 8300000, guid: 839b38f8b4a2aab48b40de28e301fcfa, type: 3}
+    volume: 0.3
+    pitch: 1
+    pitchRandom: 0.25
+    loop: 0
     autoplay: 0
     source: {fileID: 0}
 --- !u!4 &1205615860
@@ -89099,7 +89107,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7444025057613218872, guid: 7810547df4c78264bb124d9de5d67382, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7444025057613218875, guid: 7810547df4c78264bb124d9de5d67382, type: 3}
       propertyPath: waypointList.Array.size

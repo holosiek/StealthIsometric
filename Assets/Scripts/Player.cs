@@ -199,6 +199,8 @@ public class Player : MonoBehaviour{
         } else if(collider.tag.Equals("LootZone") && isHoldingLoot){
             // Change holding loot bool to false
             isHoldingLoot = false;
+            // Play "Throwing Loot" sound
+            FindObjectOfType<AudioManager>().Play("Throwing Loot");
             // Add score
             gameControl.AddToWorth(gameControl.lootInfo.worth);
             // Reset information about loot
