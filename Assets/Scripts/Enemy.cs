@@ -475,10 +475,12 @@ public class Enemy : MonoBehaviour{
         mesh.triangles = triangles;
         
         // If player was hit, change state to chasing
-        if(stateRN != States.Chasing && isPlayerHit){
+        if(stateRN != States.Chasing && isPlayerHit && gameControl.whichPPSettingisSet == GameController.PPSettings.Default){
             // Set material to "Chasing player"
             sightAreaRenderer.material = sightAreaMaterials[1];
             stateRN = States.Chasing;
+            // Play detected sound
+            FindObjectOfType<AudioManager>().Play("Hmm");
         }
         
         // Call state methods depending on enemy type

@@ -2442,7 +2442,7 @@ Transform:
   - {fileID: 1837162935}
   - {fileID: 1571019041}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &132303551
 PrefabInstance:
@@ -3893,7 +3893,7 @@ RectTransform:
   - {fileID: 35859411}
   - {fileID: 1408243482}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -6391,7 +6391,7 @@ Transform:
   m_Children:
   - {fileID: 705507995}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &474051763
 Mesh:
@@ -9936,7 +9936,7 @@ Transform:
   - {fileID: 1419333031}
   - {fileID: 571867092}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &561583262
 GameObject:
@@ -27024,7 +27024,7 @@ Transform:
   m_Children:
   - {fileID: 1574857392}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &963194225
 GameObject:
@@ -33371,7 +33371,7 @@ Transform:
   - {fileID: 116643440}
   - {fileID: 656109192}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1118075060
 GameObject:
@@ -37004,6 +37004,114 @@ PrefabInstance:
       objectReference: {fileID: 567489152}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 848c5a198a4baf646944f57c40109961, type: 3}
+--- !u!1 &1205615858
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1205615860}
+  - component: {fileID: 1205615859}
+  m_Layer: 0
+  m_Name: --- Audio Manager ---
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1205615859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1205615858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea7d2e3b4b108c4a8bb0be3d6b59fae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Rain Background
+    clip: {fileID: 8300000, guid: ecadcfc75ae061c4cb6e3ad7ac8dce53, type: 3}
+    volume: 0.05
+    pitch: 1
+    pitchRandom: 0
+    loop: 1
+    autoplay: 1
+    source: {fileID: 0}
+  - name: Step
+    clip: {fileID: 8300000, guid: c193717580a5d4f408b1eaa49dbbafbd, type: 3}
+    volume: 0.45
+    pitch: 1
+    pitchRandom: 0.25
+    loop: 0
+    autoplay: 0
+    source: {fileID: 0}
+  - name: Switch
+    clip: {fileID: 8300000, guid: cda5696ef1c51734e8392a4dccd2a2dc, type: 3}
+    volume: 0.5
+    pitch: 1
+    pitchRandom: 0.25
+    loop: 0
+    autoplay: 0
+    source: {fileID: 0}
+  - name: Packing
+    clip: {fileID: 8300000, guid: a74c614f950e1cc4b948d7088931cbea, type: 3}
+    volume: 0.25
+    pitch: 1
+    pitchRandom: 0.25
+    loop: 1
+    autoplay: 0
+    source: {fileID: 0}
+  - name: Throwing Loot
+    clip: {fileID: 8300000, guid: 839b38f8b4a2aab48b40de28e301fcfa, type: 3}
+    volume: 0.3
+    pitch: 1
+    pitchRandom: 0.25
+    loop: 0
+    autoplay: 0
+    source: {fileID: 0}
+  - name: Hmm
+    clip: {fileID: 8300000, guid: 75581fe34a459174e84d1db99134f6c2, type: 3}
+    volume: 0.4
+    pitch: 1
+    pitchRandom: 1
+    loop: 0
+    autoplay: 0
+    source: {fileID: 0}
+  - name: Lose
+    clip: {fileID: 8300000, guid: d5ff456f175d2314082ffba39da15274, type: 3}
+    volume: 0.8
+    pitch: 1
+    pitchRandom: 0
+    loop: 0
+    autoplay: 0
+    source: {fileID: 0}
+  - name: Win
+    clip: {fileID: 8300000, guid: 86e60c90aa863d34fbf63fa024a6a78f, type: 3}
+    volume: 0.2
+    pitch: 1
+    pitchRandom: 0
+    loop: 0
+    autoplay: 0
+    source: {fileID: 0}
+--- !u!4 &1205615860
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1205615858}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1209277641
 GameObject:
   m_ObjectHideFlags: 0
@@ -83166,7 +83274,7 @@ Transform:
   - {fileID: 367289017}
   - {fileID: 786074879}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1483149723
 GameObject:
@@ -87269,7 +87377,7 @@ Transform:
   - {fileID: 1407128808}
   - {fileID: 1063942840}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1918863302
 Mesh:
@@ -87611,7 +87719,7 @@ Transform:
   - {fileID: 1901448404}
   - {fileID: 36014051}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1959932256
 GameObject:
@@ -88117,7 +88225,7 @@ Transform:
   - {fileID: 979556799}
   - {fileID: 1970914209}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1991947462
 Mesh:
