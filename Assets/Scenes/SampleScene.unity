@@ -37074,6 +37074,22 @@ MonoBehaviour:
     loop: 0
     autoplay: 0
     source: {fileID: 0}
+  - name: Hmm
+    clip: {fileID: 8300000, guid: 75581fe34a459174e84d1db99134f6c2, type: 3}
+    volume: 0.4
+    pitch: 1
+    pitchRandom: 1
+    loop: 0
+    autoplay: 0
+    source: {fileID: 0}
+  - name: Lose
+    clip: {fileID: 8300000, guid: d5ff456f175d2314082ffba39da15274, type: 3}
+    volume: 0.5
+    pitch: 1
+    pitchRandom: 0
+    loop: 0
+    autoplay: 0
+    source: {fileID: 0}
 --- !u!4 &1205615860
 Transform:
   m_ObjectHideFlags: 0

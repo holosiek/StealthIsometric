@@ -162,6 +162,8 @@ public class Player : MonoBehaviour{
         if(collision.collider.tag.Equals("Enemy") && gameControl.whichPPSettingisSet == GameController.PPSettings.Default){
             // Turn on failed results screen
             gameControl.SetMissionFailed();
+            // Play lose sound
+            FindObjectOfType<AudioManager>().Play("Lose");
             // Set our charater controller as disabled
             characterController.enabled = false;
         }
