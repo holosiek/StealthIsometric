@@ -303,6 +303,10 @@ public class Player : MonoBehaviour{
         if(Input.GetKey("e") && interactableEntered > 0){
             // If current interactable object is loot type and player is not holding loot
             if(currInteractableObjType == InteractableObject.InteractableType.Loot && !isHoldingLoot){
+                // If it's first time holding E for loot, play sound
+                if(isInteractiveActive == false){
+                    FindObjectOfType<AudioManager>().Play("Packing");
+                }
                 // Set that player is interacting with something
                 isInteractiveActive = true;
                 // Add to "interacting" timer
@@ -335,6 +339,10 @@ public class Player : MonoBehaviour{
                 }
             }
         } else {
+            // If it's first time stopping interactive, stop all sounds created from it
+            if(isInteractiveActive == true){
+                FindObjectOfType<AudioManager>().Stop("Packing");
+            }
             // Hide timer and reset interactive timer
             isInteractiveActive = false;
             interactiveTimer = 0f;

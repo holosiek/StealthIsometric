@@ -35,6 +35,19 @@ public class AudioManager : MonoBehaviour{
 		sound.source.Play();
     }
     
+    // Stop sound
+	public void Stop(string a_sound){
+        // Find sound in array
+		Sound sound = Array.Find(sounds, item => item.name == a_sound);
+        // If sound doesn't exist, throw warning and return function
+		if(sound == null){
+			Debug.LogWarning("Sound: " + a_sound + " not found!");
+			return;
+		}
+        // Stop found sound
+		sound.source.Stop();
+    }
+    
     // #############################################
     // ##### EVENTS
     
