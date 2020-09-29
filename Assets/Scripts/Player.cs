@@ -89,11 +89,22 @@ public class Player : MonoBehaviour{
     
     // Offset of text above interactable objects
     private Vector3 offsetText = new Vector3(0, 150, 0);
+    // Timer counting next footstep sound moment
+    private float footstepsTimer = 0f;
     // Time till next footstep sound
-    private float tillNextSound = 0f;
+    private float footstepsTillNextSound;
+    // Minimum time till next sound
+    private float footstepsMinTime = 0.2f;
+    // Time divided by speed of player to calculate next sound time
+    private float footstepsDividerTime = 2f;
     
     // #############################################
     // ##### METHODS
+    
+    // Update next footstep sound time
+    void UpdateTimeTillFootstep(){
+        footstepsTillNextSound = Mathf.Max(footstepsMinTime, footstepsDividerTime/(moveSpeed-moveWeightPenality*gameControl.lootInfo.weight));
+    }
     
     // Change popup text depending on situation
     void UpdatePopUp(){
@@ -209,6 +220,8 @@ public class Player : MonoBehaviour{
             gameControl.ResetLootInfo();
             // Update UI
             gameControl.UpdateEquipped();
+            // Update next footstep sound time
+            UpdateTimeTillFootstep();
         //-----------------------------------------
         // Else if player enters escape zone trigger
         } else if(collider.tag.Equals("EscapeZone")){
@@ -238,6 +251,8 @@ public class Player : MonoBehaviour{
         characterController = GetComponent<CharacterController>();
         // Set current camera zoom level
         cameraZoomLevel = Camera.main.orthographicSize;
+        // Update next footstep sound time
+        UpdateTimeTillFootstep();
     }
     
     // Every frame
@@ -275,27 +290,24 @@ public class Player : MonoBehaviour{
         }
         // If in gameplay state, move player by move vector
         if(gameControl.whichPPSettingisSet == GameController.PPSettings.Default){
-            characterController.Move(move);
-        }
-        //----------------------------------
-        //----------------- TODO
-        // If our player is moving around
-        if(move.x != 0f || move.z != 0f){
-            // Add to timer till next footstep sound
-            tillNextSound += Time.deltaTime;
-            // If it's time to play sound
-            if(tillNextSound >= Mathf.Max(0.2f, 2f/(moveSpeed-moveWeightPenality*gameControl.lootInfo.weight))){
-                // Play footstep sound
-                FindObjectOfType<AudioManager>().Play("Step");
-                // Reset timer till next footstep sound 
-                tillNextSound = 0f;
+            CollisionFlags flags = characterController.Move(move);
+            // If our player is moving around and not hitting walls
+            if((move.x != 0f || move.z != 0f) && (flags&CollisionFlags.Sides) == 0){
+                // Add to timer till next footstep sound
+                footstepsTimer += Time.deltaTime;
+                // If it's time to play sound
+                if(footstepsTimer >= footstepsTillNextSound){
+                    // Play footstep sound
+                    FindObjectOfType<AudioManager>().Play("Step");
+                    // Reset timer till next footstep sound 
+                    footstepsTimer = 0f;
+                }
+            // If our player is standing
+            } else {
+                // Set timer till next footstep sound enough to play sound on next move
+                footstepsTimer = footstepsTillNextSound;
             }
-        // If our player is standing
-        } else {
-            // Set timer till next footstep sound enough to play sound on next move
-            tillNextSound = Mathf.Max(0.2f, 2f/(moveSpeed-moveWeightPenality*gameControl.lootInfo.weight));
         }
-        //----------------- 
         //----------------------------------
         // Change zoom of camera with mouse scroll
         if(Input.mouseScrollDelta.y != 0f){
@@ -327,6 +339,8 @@ public class Player : MonoBehaviour{
                     isHoldingLoot = true;
                     // Update UI
                     gameControl.UpdateEquipped();
+                    // Update next footstep sound time
+                    UpdateTimeTillFootstep();
                     // Delete object from lootables
                     DeleteInteractableObj(currInteractableObj);
                 }
