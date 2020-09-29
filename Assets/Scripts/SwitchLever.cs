@@ -36,6 +36,8 @@ public class SwitchLever : MonoBehaviour {
     public void PullLever(){
         // Change state of lever
         isOn = !isOn;
+        // Play switch sound
+        FindObjectOfType<AudioManager>().Play("Switch");
         // Set rotation of lever element
         leverObj.transform.rotation = Quaternion.Euler(0, 0, (isOn)?(30):(-30));
         // If type is Move, change position of object by vector
