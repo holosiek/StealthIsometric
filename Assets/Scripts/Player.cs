@@ -89,6 +89,8 @@ public class Player : MonoBehaviour{
     
     // Offset of text above interactable objects
     private Vector3 offsetText = new Vector3(0, 150, 0);
+    // Time till next footstep sound
+    private float tillNextSound = 0f;
     
     // #############################################
     // ##### METHODS
@@ -231,7 +233,7 @@ public class Player : MonoBehaviour{
         // Set current camera zoom level
         cameraZoomLevel = Camera.main.orthographicSize;
     }
-
+    
     // Every frame
     void Update(){
         // Init move vector
@@ -269,6 +271,25 @@ public class Player : MonoBehaviour{
         if(gameControl.whichPPSettingisSet == GameController.PPSettings.Default){
             characterController.Move(move);
         }
+        //----------------------------------
+        //----------------- TODO
+        // If our player is moving around
+        if(move.x != 0f || move.z != 0f){
+            // Add to timer till next footstep sound
+            tillNextSound += Time.deltaTime;
+            // If it's time to play sound
+            if(tillNextSound >= Mathf.Max(0.2f, 2f/(moveSpeed-moveWeightPenality*gameControl.lootInfo.weight))){
+                // Play footstep sound
+                FindObjectOfType<AudioManager>().Play("Step");
+                // Reset timer till next footstep sound 
+                tillNextSound = 0f;
+            }
+        // If our player is standing
+        } else {
+            // Set timer till next footstep sound enough to play sound on next move
+            tillNextSound = Mathf.Max(0.2f, 2f/(moveSpeed-moveWeightPenality*gameControl.lootInfo.weight));
+        }
+        //----------------- 
         //----------------------------------
         // Change zoom of camera with mouse scroll
         if(Input.mouseScrollDelta.y != 0f){

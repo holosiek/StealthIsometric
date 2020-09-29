@@ -20,6 +20,10 @@ public class Sound{
 	[Range(0.01f, 3f)]
     [Tooltip("Pitch of audio")]
 	public float pitch = 0f;
+    
+	[Range(0f, 1f)]
+    [Tooltip("Random pitch to be applied on play")]
+	public float pitchRandom = 0f;
 
     [Tooltip("Should audio be looped?")]
 	public bool loop = false;

@@ -28,6 +28,9 @@ public class AudioManager : MonoBehaviour{
 			Debug.LogWarning("Sound: " + a_sound + " not found!");
 			return;
 		}
+        // Apply random pitch (if set other than 0)
+        float temp = sound.pitchRandom/2f;
+        sound.source.pitch = sound.pitch + UnityEngine.Random.Range(-temp, temp);
         // Play found sound
 		sound.source.Play();
     }
