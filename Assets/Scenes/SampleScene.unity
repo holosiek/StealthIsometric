@@ -37036,7 +37036,7 @@ MonoBehaviour:
   sounds:
   - name: Rain Background
     clip: {fileID: 8300000, guid: ecadcfc75ae061c4cb6e3ad7ac8dce53, type: 3}
-    volume: 0.05
+    volume: 0.1
     pitch: 1
     pitchRandom: 0
     loop: 1
@@ -37044,7 +37044,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Step
     clip: {fileID: 8300000, guid: c193717580a5d4f408b1eaa49dbbafbd, type: 3}
-    volume: 0.45
+    volume: 0.9
     pitch: 1
     pitchRandom: 0.25
     loop: 0
@@ -37052,7 +37052,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Switch
     clip: {fileID: 8300000, guid: cda5696ef1c51734e8392a4dccd2a2dc, type: 3}
-    volume: 0.5
+    volume: 1
     pitch: 1
     pitchRandom: 0.25
     loop: 0
@@ -37060,7 +37060,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Packing
     clip: {fileID: 8300000, guid: a74c614f950e1cc4b948d7088931cbea, type: 3}
-    volume: 0.25
+    volume: 0.5
     pitch: 1
     pitchRandom: 0.25
     loop: 1
@@ -37068,7 +37068,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Throwing Loot
     clip: {fileID: 8300000, guid: 839b38f8b4a2aab48b40de28e301fcfa, type: 3}
-    volume: 0.3
+    volume: 0.6
     pitch: 1
     pitchRandom: 0.25
     loop: 0
@@ -37076,15 +37076,15 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Hmm
     clip: {fileID: 8300000, guid: 75581fe34a459174e84d1db99134f6c2, type: 3}
-    volume: 0.4
+    volume: 0.8
     pitch: 1
     pitchRandom: 1
     loop: 0
     autoplay: 0
     source: {fileID: 0}
   - name: Lose
-    clip: {fileID: 8300000, guid: d5ff456f175d2314082ffba39da15274, type: 3}
-    volume: 0.8
+    clip: {fileID: 8300000, guid: df45f90f830d59846850b6784613afef, type: 3}
+    volume: 1
     pitch: 1
     pitchRandom: 0
     loop: 0
@@ -37092,7 +37092,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Win
     clip: {fileID: 8300000, guid: 86e60c90aa863d34fbf63fa024a6a78f, type: 3}
-    volume: 0.2
+    volume: 0.4
     pitch: 1
     pitchRandom: 0
     loop: 0
@@ -84337,7 +84337,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh220466
+  m_Name: pb_Mesh17190
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
